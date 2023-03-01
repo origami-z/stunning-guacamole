@@ -7,6 +7,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { Button, StackLayout } from "@salt-ds/core";
 import { useState } from "react";
+import { convertThemeObjToCss } from "../../themes/utils";
 import { DEFAULT_FILES, dependencies } from "./custom-setup";
 
 const MutableKeyMap = completionKeymap.slice();
@@ -36,32 +37,11 @@ const CustomLayout = () => {
   );
 };
 
-const convertThemeObjToCss = (themeObj: any): string[] => {
-  if (typeof themeObj === "object") {
-    const allKeys = Object.keys(themeObj);
-    return allKeys.flatMap((k) => {
-      const value = themeObj[k];
-      if (typeof value === "object") {
-        return convertThemeObjToCss(value).map(
-          (mappedCode) => `${k}-${mappedCode}`
-        );
-      } else if (typeof value === "string") {
-        return `${k}: ${value};`;
-      } else {
-        return "";
-      }
-    });
-  } else {
-    return [];
-  }
-};
-
 export const CustomSandpack = ({ themeObj }: any) => {
   const defaultFiles = DEFAULT_FILES;
   const convertedCode = convertThemeObjToCss(themeObj).map(
-    (x) => `--salt-palette-${x}`
+    (x) => `--salt-palette-${x};`
   );
-  console.log({ themeObj, convertedCode });
   const code = `.custom-theme.salt-theme {
   ${convertedCode.join("\n  ")}
 }`;
@@ -72,7 +52,7 @@ export const CustomSandpack = ({ themeObj }: any) => {
     },
     "/theme.json": {
       code: JSON.stringify(themeObj, null, 2),
-      // active: true,
+      readOnly: true,
     },
   };
 

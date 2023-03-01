@@ -1,22 +1,30 @@
 import { Color, ColorChooser } from "@salt-ds/lab";
-import { useCallback } from "react";
+import { useCallback, Fragment } from "react";
+import { ColorToken } from "../../themes/types";
+import { isThemeToken } from "../../themes/utils";
 
 const IndividualPicker = ({
-  hex,
-  onHexChange,
+  color: colorProp,
+  onColorChange,
 }: {
-  hex: string;
-  onHexChange?: (newHex: string) => void;
+  color: ColorToken["value"];
+  onColorChange?: (newColor: ColorToken["value"]) => void;
 }) => {
-  const color = Color.makeColorFromHex(hex);
+  const { r, g, b, a } = colorProp;
+  const color = Color.makeColorFromRGB(r, g, b, a);
 
   const onSelect = useCallback(
     (color?: Color) => {
       if (color) {
-        onHexChange?.(color.hex);
+        const rgba = color.rgba;
+        if (rgba.a === 1) {
+          onColorChange?.({ r: rgba.r, g: rgba.g, b: rgba.b });
+        } else {
+          onColorChange?.(rgba);
+        }
       }
     },
-    [onHexChange]
+    [onColorChange]
   );
   return <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />;
 };
@@ -30,14 +38,41 @@ const ThemeTokens = ({
   onThemeObjChange?: (newThemeObj: any) => void;
   level?: number;
 }) => {
-  if (typeof themeObj === "string") {
+  if (isThemeToken(themeObj)) {
+    const { type, value, ...restToken } = themeObj;
+
+    let tokenRenderer;
+
+    if (type === "color") {
+      tokenRenderer = (
+        <div>
+          <IndividualPicker
+            color={value}
+            onColorChange={(newColor) => {
+              return onThemeObjChange?.({
+                type,
+                value: newColor,
+                ...restToken,
+              });
+            }}
+          />
+        </div>
+      );
+    } else {
+      console.warn("Unimplemented renderer for token", themeObj);
+      tokenRenderer = null;
+    }
+
     return (
-      <div>
-        <IndividualPicker
-          hex={themeObj}
-          onHexChange={(newHex) => onThemeObjChange?.(newHex)}
+      <>
+        {tokenRenderer}
+        <ThemeTokens
+          themeObj={restToken}
+          onThemeObjChange={(newToken) => {
+            onThemeObjChange?.({ type, value, ...newToken });
+          }}
         />
-      </div>
+      </>
     );
   } else if (typeof themeObj === "object") {
     const Element: any = level
@@ -50,7 +85,7 @@ const ThemeTokens = ({
       <div>
         {allKeys.map((k) => {
           return (
-            <>
+            <Fragment key={k}>
               <Element>{k}</Element>
               <ThemeTokens
                 themeObj={themeObj[k]}
@@ -60,7 +95,7 @@ const ThemeTokens = ({
                 }}
                 level={level ? level + 1 : 2}
               />
-            </>
+            </Fragment>
           );
         })}
       </div>
@@ -77,10 +112,8 @@ export const ColorPickers = ({
   themeObj: any;
   onThemeObjChange?: (newThemeObj: any) => void;
 }) => {
-  console.log("ColorPickers", { themeObj });
   return (
     <>
-      {/* <div>Choose colors</div> */}
       <h1>Custom Theme</h1>
       <div>
         <ThemeTokens
