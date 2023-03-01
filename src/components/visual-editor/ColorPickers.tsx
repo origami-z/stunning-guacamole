@@ -24,9 +24,11 @@ const IndividualPicker = ({
 const ThemeTokens = ({
   themeObj,
   onThemeObjChange,
+  level,
 }: {
   themeObj: any;
   onThemeObjChange?: (newThemeObj: any) => void;
+  level?: number;
 }) => {
   if (typeof themeObj === "string") {
     return (
@@ -38,19 +40,25 @@ const ThemeTokens = ({
       </div>
     );
   } else if (typeof themeObj === "object") {
+    const Element: any = level
+      ? level < 5
+        ? "h" + level
+        : "strong"
+      : "strong";
     const allKeys = Object.keys(themeObj);
     return (
       <div>
         {allKeys.map((k) => {
           return (
             <>
-              <strong>{k}</strong>
+              <Element>{k}</Element>
               <ThemeTokens
                 themeObj={themeObj[k]}
                 onThemeObjChange={(newObj) => {
                   const updatedObj = { ...themeObj, [k]: newObj };
                   onThemeObjChange?.(updatedObj);
                 }}
+                level={level ? level + 1 : 2}
               />
             </>
           );
@@ -75,7 +83,11 @@ export const ColorPickers = ({
       {/* <div>Choose colors</div> */}
       <h1>Custom Theme</h1>
       <div>
-        <ThemeTokens themeObj={themeObj} onThemeObjChange={onThemeObjChange} />
+        <ThemeTokens
+          themeObj={themeObj}
+          onThemeObjChange={onThemeObjChange}
+          level={2}
+        />
       </div>
     </>
   );
