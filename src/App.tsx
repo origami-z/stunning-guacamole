@@ -1,6 +1,6 @@
 import { FlexItem, FlexLayout } from "@salt-ds/core";
-import { ColorPickers } from "./ColorPickers";
-import { CustomSandpack } from "./CustomSandpack";
+import { ColorPickers } from "./components/visual-editor/ColorPickers";
+import { CustomSandpack } from "./components/sandpack";
 import { useState } from "react";
 
 import "./App.css";

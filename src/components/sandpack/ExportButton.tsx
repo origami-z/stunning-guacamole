@@ -1,5 +1,5 @@
 import { useActiveCode, useSandpack } from "@codesandbox/sandpack-react";
-import { compressFiles, shareFiles } from "./utils";
+import { compressFiles, shareFiles } from "../../utils";
 
 export const ExportButton = () => {
   const { code, updateCode } = useActiveCode();

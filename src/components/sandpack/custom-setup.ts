@@ -1,5 +1,5 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
-import { defaultLightTheme } from "./themes/defaultLight";
+import { defaultLightTheme } from "../../themes/defaultLight";
 
 export const dependencies = {
   "@salt-ds/core": "latest",

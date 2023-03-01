@@ -18,8 +18,8 @@ export const defaultLightTheme = `{
   --salt-palette-interact-foreground-partial: var(--salt-color-blue-600);
   --salt-palette-interact-foreground-partialDisabled: var(--salt-color-blue-600-fade-foreground);
   --salt-palette-interact-outline: var(--salt-color-blue-600);
-  --salt-palette-interact-cta-background: var(--salt-color-red-600);
-  --salt-palette-interact-cta-background-active: var(--salt-color-red-700);
+  --salt-palette-interact-cta-background: var(--salt-color-blue-600);
+  --salt-palette-interact-cta-background-active: var(--salt-color-blue-700);
   --salt-palette-interact-cta-background-activeDisabled: var(--salt-color-blue-700-fade-background);
   --salt-palette-interact-cta-background-disabled: var(--salt-color-blue-600-fade-background);
   --salt-palette-interact-cta-background-hover: var(--salt-color-blue-500);
