@@ -1,5 +1,5 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
-import { defaultLightTheme } from "../../themes/defaultLight";
+import { SALT_LIGHT_THEME } from "../../themes/saltLight";
 
 export const dependencies = {
   "@salt-ds/core": "latest",
@@ -12,6 +12,7 @@ export const DEFAULT_FILES: SandpackState["files"] = {
     code: `import { Button, SaltProvider, StackLayout, FlexLayout } from '@salt-ds/core';
 import { ThumbsUpIcon, ThumbsDownIcon } from '@salt-ds/icons';
 import { List } from '@salt-ds/lab';
+import "./Theme.css";
 import "./App.css";
 
 const shortColorData = [
@@ -46,7 +47,7 @@ export default function App(): JSX.Element {
 `,
   },
   "/App.css": {
-    code: `.custom-theme.salt-theme ` + defaultLightTheme,
+    code: "",
   },
   "/public/index.html": {
     code: `<!DOCTYPE html>

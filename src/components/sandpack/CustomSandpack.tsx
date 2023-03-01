@@ -68,7 +68,7 @@ export const CustomSandpack = ({ themeObj }: any) => {
 }`;
   const files = {
     ...defaultFiles,
-    "/App.css": {
+    "/Theme.css": {
       code,
     },
     "/theme.json": {

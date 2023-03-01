@@ -1,4 +1,4 @@
-export const defaultLightTheme = `{
+export const SALT_LIGHT_THEME = `{
   --salt-palette-accent-background: var(--salt-color-blue-500);
   --salt-palette-accent-border: var(--salt-color-blue-500);
   --salt-palette-accent-foreground: var(--salt-color-white);
