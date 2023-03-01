@@ -1,19 +1,13 @@
 import { FlexItem, FlexLayout } from "@salt-ds/core";
-import { ColorPickers } from "./components/visual-editor/ColorPickers";
-import { CustomSandpack } from "./components/sandpack";
 import { useState } from "react";
+import { CustomSandpack } from "./components/sandpack";
+import { ColorPickers } from "./components/visual-editor/ColorPickers";
+import { simpleSample } from "./themes/sample";
 
 import "./App.css";
 
-const defaultTheme = {
-  interact: {
-    cta: { background: "#D65513" },
-    background: { active: "#f3bdee" },
-  },
-};
-
 const App = () => {
-  const [customTheme, setCustomTheme] = useState<any>(defaultTheme);
+  const [customTheme, setCustomTheme] = useState<any>(simpleSample);
   console.log("App", customTheme);
   return (
     <FlexLayout>

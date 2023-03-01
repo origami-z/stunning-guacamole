@@ -1,5 +1,6 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
 import { SALT_LIGHT_THEME } from "../../themes/saltLight";
+import { ThumbsUpIcon, ThumbsDownIcon, InfoIcon } from "@salt-ds/icons";
 
 export const dependencies = {
   "@salt-ds/core": "latest",
@@ -10,7 +11,7 @@ export const dependencies = {
 export const DEFAULT_FILES: SandpackState["files"] = {
   "/App.tsx": {
     code: `import { Button, SaltProvider, StackLayout, FlexLayout } from '@salt-ds/core';
-import { ThumbsUpIcon, ThumbsDownIcon } from '@salt-ds/icons';
+import { InfoIcon, ThumbsUpIcon, ThumbsDownIcon } from '@salt-ds/icons';
 import { List } from '@salt-ds/lab';
 import "./Theme.css";
 import "./App.css";
@@ -35,10 +36,13 @@ export default function App(): JSX.Element {
       <List source={shortColorData} selected={shortColorData[3]} />
       <FlexLayout>
         <Button variant="cta">
-          <ThumbsUpIcon />
+          <ThumbsUpIcon /> CTA
         </Button>
-        <Button>
-          <ThumbsDownIcon />
+        <Button variant="primary">
+          Primary
+        </Button>
+        <Button variant="secondary">
+          <InfoIcon /> Secondary
         </Button>
       </FlexLayout>
     </StackLayout>

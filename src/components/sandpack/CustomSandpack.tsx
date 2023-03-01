@@ -5,10 +5,9 @@ import {
   SandpackPreview,
   SandpackProvider,
 } from "@codesandbox/sandpack-react";
-import { StackLayout } from "@salt-ds/core";
+import { Button, StackLayout } from "@salt-ds/core";
 import { useState } from "react";
 import { DEFAULT_FILES, dependencies } from "./custom-setup";
-import { ExportButton } from "./ExportButton";
 
 const MutableKeyMap = completionKeymap.slice();
 
@@ -29,9 +28,9 @@ const CustomLayout = () => {
       </SandpackLayout>
 
       <div>
-        <button onClick={() => setShowEditor((x) => !x)}>
+        <Button onClick={() => setShowEditor((x) => !x)}>
           {showEditor ? "Hide " : "Show "}Editor
-        </button>
+        </Button>
       </div>
     </StackLayout>
   );
