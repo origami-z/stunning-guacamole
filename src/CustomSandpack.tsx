@@ -5,36 +5,35 @@ import {
   SandpackPreview,
   SandpackProvider,
 } from "@codesandbox/sandpack-react";
+import { StackLayout } from "@salt-ds/core";
 import { useState } from "react";
 import { DEFAULT_FILES, dependencies } from "./custom-setup";
 import { ExportButton } from "./ExportButton";
-import { getInitialFiles } from "./utils";
 
 const MutableKeyMap = completionKeymap.slice();
 
 const CustomLayout = () => {
   const [showEditor, setShowEditor] = useState(false);
   return (
-    <SandpackLayout>
-      {showEditor && (
-        <SandpackCodeEditor
-          closableTabs
-          showLineNumbers
-          extensions={[autocompletion()]}
-          extensionsKeymap={MutableKeyMap}
-        />
-      )}
-      <SandpackPreview
-        actionsChildren={
-          <div>
-            <button onClick={() => setShowEditor((x) => !x)}>
-              {showEditor ? "Hide " : "Show "}Editor
-            </button>
-            <ExportButton />
-          </div>
-        }
-      />
-    </SandpackLayout>
+    <StackLayout>
+      <SandpackLayout>
+        {showEditor && (
+          <SandpackCodeEditor
+            closableTabs
+            showLineNumbers
+            extensions={[autocompletion()]}
+            extensionsKeymap={MutableKeyMap}
+          />
+        )}
+        <SandpackPreview />
+      </SandpackLayout>
+
+      <div>
+        <button onClick={() => setShowEditor((x) => !x)}>
+          {showEditor ? "Hide " : "Show "}Editor
+        </button>
+      </div>
+    </StackLayout>
   );
 };
 
@@ -59,7 +58,7 @@ const convertThemeObjToCss = (themeObj: any): string[] => {
 };
 
 export const CustomSandpack = ({ themeObj }: any) => {
-  const defaultFiles = getInitialFiles(DEFAULT_FILES);
+  const defaultFiles = DEFAULT_FILES;
   const convertedCode = convertThemeObjToCss(themeObj).map(
     (x) => `--salt-palette-${x}`
   );
@@ -77,6 +76,7 @@ export const CustomSandpack = ({ themeObj }: any) => {
       // active: true,
     },
   };
+
   return (
     <SandpackProvider
       template="react-ts"

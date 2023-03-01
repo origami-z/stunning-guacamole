@@ -1,8 +1,5 @@
-import { FlexItem } from "@salt-ds/core";
 import { Color, ColorChooser } from "@salt-ds/lab";
-import { useCallback, useState } from "react";
-
-const defaultColor = Color.makeColorFromHex("#D65513");
+import { useCallback } from "react";
 
 const IndividualPicker = ({
   hex,
@@ -11,24 +8,17 @@ const IndividualPicker = ({
   hex: string;
   onHexChange?: (newHex: string) => void;
 }) => {
-  const [selectedColor, setSelectedColor] = useState(
-    Color.makeColorFromHex(hex)
-  );
+  const color = Color.makeColorFromHex(hex);
+
   const onSelect = useCallback(
     (color?: Color) => {
-      setSelectedColor(color);
       if (color) {
         onHexChange?.(color.hex);
       }
     },
-    [setSelectedColor]
+    [onHexChange]
   );
-  const onClear = () => {
-    setSelectedColor(defaultColor);
-  };
-  return (
-    <ColorChooser color={selectedColor} onSelect={onSelect} onClear={onClear} />
-  );
+  return <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />;
 };
 
 const ThemeTokens = ({
@@ -79,13 +69,14 @@ export const ColorPickers = ({
   themeObj: any;
   onThemeObjChange?: (newThemeObj: any) => void;
 }) => {
+  console.log("ColorPickers", { themeObj });
   return (
-    <FlexItem grow={1}>
+    <>
       {/* <div>Choose colors</div> */}
       <h1>Custom Theme</h1>
       <div>
         <ThemeTokens themeObj={themeObj} onThemeObjChange={onThemeObjChange} />
       </div>
-    </FlexItem>
+    </>
   );
 };

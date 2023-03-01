@@ -14,13 +14,16 @@ const defaultTheme = {
 
 const App = () => {
   const [customTheme, setCustomTheme] = useState<any>(defaultTheme);
+  console.log("App", customTheme);
   return (
     <FlexLayout>
-      <ColorPickers
-        themeObj={customTheme}
-        onThemeObjChange={(newTheme) => setCustomTheme(newTheme)}
-      />
-      <FlexItem grow={1}>
+      <FlexItem grow={1} shrink={1}>
+        <ColorPickers
+          themeObj={customTheme}
+          onThemeObjChange={(newTheme) => setCustomTheme(newTheme)}
+        />
+      </FlexItem>
+      <FlexItem grow={1} shrink={1}>
         <CustomSandpack themeObj={customTheme} />
       </FlexItem>
     </FlexLayout>
