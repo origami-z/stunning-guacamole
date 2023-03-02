@@ -39,9 +39,7 @@ const CustomLayout = () => {
 
 export const CustomSandpack = ({ themeObj }: any) => {
   const defaultFiles = DEFAULT_FILES;
-  const convertedCode = convertThemeObjToCss(themeObj).map(
-    (x) => `--salt-palette-${x};`
-  );
+  const convertedCode = convertThemeObjToCss(themeObj);
   const code = `.custom-theme.salt-theme {
   ${convertedCode.join("\n  ")}
 }`;

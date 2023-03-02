@@ -1,6 +1,6 @@
 import { ColorToken, TOKEN_TYPES } from "./types";
 
-export const convertThemeObjToCss = (themeObj: any): string[] => {
+const innerCssConvertLoop = (themeObj: any): string[] => {
   if (typeof themeObj === "object") {
     const allKeys = Object.keys(themeObj);
 
@@ -18,14 +18,14 @@ export const convertThemeObjToCss = (themeObj: any): string[] => {
           console.warn("Unimplemented CSS conversion for type: " + $type);
         }
 
-        const restCss = convertThemeObjToCss(restObj).map(
+        const restCss = innerCssConvertLoop(restObj).map(
           (mappedCode) => `${k}-${mappedCode}`
         );
         allCss.push(...restCss);
 
         return allCss;
       } else if (typeof objValue === "object") {
-        const mapped = convertThemeObjToCss(objValue).map(
+        const mapped = innerCssConvertLoop(objValue).map(
           (converted) => k + "-" + converted
         );
 
@@ -37,6 +37,10 @@ export const convertThemeObjToCss = (themeObj: any): string[] => {
   } else {
     return [];
   }
+};
+
+export const convertThemeObjToCss = (themeObj: any): string[] => {
+  return innerCssConvertLoop(themeObj).map((css) => "--" + css + ";");
 };
 
 export const convertColorTokenToCSS = (token: ColorToken): string => {
