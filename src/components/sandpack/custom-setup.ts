@@ -1,6 +1,6 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
-import { SALT_LIGHT_THEME } from "../../themes/saltLight";
-import { ThumbsUpIcon, ThumbsDownIcon, InfoIcon } from "@salt-ds/icons";
+import { simpleSample } from "../../themes/sample";
+import { convertThemeObjToCss } from "../../themes/utils";
 
 export const dependencies = {
   "@salt-ds/core": "latest",
@@ -8,6 +8,15 @@ export const dependencies = {
   "@salt-ds/lab": "latest",
   "@salt-ds/theme": "latest",
 };
+export const THEME_FILE = "/Theme.css";
+export const THEME_JSON = "/theme.json";
+
+export const getCodeForCSS = (theme: any) => `.custom-theme.salt-theme {
+  ${convertThemeObjToCss(theme).join("\n  ")}
+}`;
+
+export const getCodeForJson = (theme: any) => JSON.stringify(theme, null, 2);
+
 export const DEFAULT_FILES: SandpackState["files"] = {
   "/App.tsx": {
     code: `import { Button, SaltProvider, StackLayout, FlexLayout } from '@salt-ds/core';
@@ -96,5 +105,12 @@ root.render(
 </StrictMode>
 );`,
     // hidden: true,
+  },
+  [THEME_FILE]: {
+    code: getCodeForCSS(simpleSample),
+  },
+  [THEME_JSON]: {
+    code: getCodeForJson(simpleSample),
+    readOnly: true,
   },
 };

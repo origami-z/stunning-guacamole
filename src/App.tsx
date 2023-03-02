@@ -1,14 +1,21 @@
 import { FlexItem, FlexLayout } from "@salt-ds/core";
 import { useState } from "react";
-import { CustomSandpack } from "./components/sandpack";
+import {
+  CustomSandpack,
+  DEFAULT_FILES,
+  dependencies,
+} from "./components/sandpack";
 import { ColorPickers } from "./components/visual-editor/ColorPickers";
 import { simpleSample } from "./themes/sample";
 
+import { SandpackProvider } from "@codesandbox/sandpack-react";
+
 import "./App.css";
 
-const App = () => {
+const InnerApp = () => {
   const [customTheme, setCustomTheme] = useState<any>(simpleSample);
-  console.log("App", customTheme);
+  console.log("InnerApp", customTheme);
+
   return (
     <FlexLayout>
       <FlexItem grow={1} shrink={1}>
@@ -21,6 +28,30 @@ const App = () => {
         <CustomSandpack themeObj={customTheme} />
       </FlexItem>
     </FlexLayout>
+  );
+};
+
+const App = () => {
+  return (
+    <SandpackProvider
+      template="react-ts"
+      theme="light"
+      customSetup={{
+        dependencies,
+      }}
+      files={DEFAULT_FILES}
+      options={{
+        classes: {
+          "sp-wrapper": "custom-wrapper",
+          "sp-layout": "custom-layout",
+          "sp-tab-button": "custom-tab",
+        },
+        // Custom bundler URL: https://sandpack.codesandbox.io/docs/guides/hosting-the-bundler
+        // bundlerURL: ''
+      }}
+    >
+      <InnerApp />
+    </SandpackProvider>
   );
 };
 export default App;
