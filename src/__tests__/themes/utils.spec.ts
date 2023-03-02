@@ -50,6 +50,10 @@ describe("convertThemeObjToCss", () => {
     expect(convertThemeObjToCss(simpleSample)).toEqual([
       "interact-cta-background: rgb(214, 85, 19)",
       "interact-cta-background-hover: rgb(204, 68, 13)",
+      "interact-primary-background: rgb(197, 201, 208)",
+      "interact-primary-background-hover: rgb(217, 221, 227)",
+      "interact-background: rgb(255, 255, 255)",
+      "interact-background-hover: rgb(249, 224, 247)",
       "interact-background-active: rgb(243, 189, 238)",
     ]);
   });

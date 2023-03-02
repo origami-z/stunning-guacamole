@@ -17,13 +17,9 @@ export const convertThemeObjToCss = (themeObj: any): string[] => {
           console.warn("Unimplemented CSS conversion for type: " + type);
         }
 
-        const restKeys = Object.keys(restObj);
-
-        const restCss = restKeys.flatMap((restK) => {
-          return convertThemeObjToCss(restObj).map(
-            (mappedCode) => `${k}-${mappedCode}`
-          );
-        });
+        const restCss = convertThemeObjToCss(restObj).map(
+          (mappedCode) => `${k}-${mappedCode}`
+        );
         allCss.push(...restCss);
 
         return allCss;
