@@ -7,8 +7,8 @@ const IndividualPicker = ({
   color: colorProp,
   onColorChange,
 }: {
-  color: ColorToken["value"];
-  onColorChange?: (newColor: ColorToken["value"]) => void;
+  color: ColorToken["$value"];
+  onColorChange?: (newColor: ColorToken["$value"]) => void;
 }) => {
   const { r, g, b, a } = colorProp;
   const color = Color.makeColorFromRGB(r, g, b, a);
@@ -39,18 +39,18 @@ const ThemeTokens = ({
   level?: number;
 }) => {
   if (isThemeToken(themeObj)) {
-    const { type, value, ...restToken } = themeObj;
+    const { $type, $value, ...restToken } = themeObj;
 
     let tokenRenderer;
 
-    if (type === "color") {
+    if ($type === "color") {
       tokenRenderer = (
         <div>
           <IndividualPicker
-            color={value}
+            color={$value}
             onColorChange={(newColor) => {
               return onThemeObjChange?.({
-                type,
+                $type,
                 value: newColor,
                 ...restToken,
               });
@@ -69,7 +69,7 @@ const ThemeTokens = ({
         <ThemeTokens
           themeObj={restToken}
           onThemeObjChange={(newToken) => {
-            onThemeObjChange?.({ type, value, ...newToken });
+            onThemeObjChange?.({ $type, $value, ...newToken });
           }}
         />
       </>
