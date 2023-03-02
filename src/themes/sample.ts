@@ -25,20 +25,10 @@ export const simpleSample = {
         primary: {
           background: {
             $type: "color",
-            // Gray 60
-            $value: {
-              r: 197,
-              g: 201,
-              b: 208,
-            },
+            $value: `{salt.color.gray.60}`,
             hover: {
               $type: "color",
-              // Gray 40
-              $value: {
-                r: 217,
-                g: 221,
-                b: 227,
-              },
+              $value: `{salt.color.gray.40}`,
             },
           },
         },

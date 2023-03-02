@@ -18,6 +18,18 @@ describe("convertThemeObjToCss", () => {
     ).toEqual(["--active: rgb(204, 68, 13);"]);
   });
 
+  test("converts token with value reference", () => {
+    expect(
+      convertThemeObjToCss({
+        active: {
+          $type: "color",
+          // Orange 800
+          $value: "{a.b.c}",
+        },
+      })
+    ).toEqual(["--active: var(--a-b-c);"]);
+  });
+
   test("converts nested token", () => {
     expect(
       convertThemeObjToCss({
@@ -50,8 +62,8 @@ describe("convertThemeObjToCss", () => {
     expect(convertThemeObjToCss(simpleSample)).toEqual([
       "--salt-palette-interact-cta-background: rgb(214, 85, 19);",
       "--salt-palette-interact-cta-background-hover: rgb(204, 68, 13);",
-      "--salt-palette-interact-primary-background: rgb(197, 201, 208);",
-      "--salt-palette-interact-primary-background-hover: rgb(217, 221, 227);",
+      "--salt-palette-interact-primary-background: var(--salt-color-gray-60);",
+      "--salt-palette-interact-primary-background-hover: var(--salt-color-gray-40);",
       "--salt-palette-interact-background: rgb(255, 255, 255);",
       "--salt-palette-interact-background-hover: rgb(249, 224, 247);",
       "--salt-palette-interact-background-active: rgb(243, 189, 238);",

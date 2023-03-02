@@ -1,7 +1,12 @@
-import { Color, ColorChooser } from "@salt-ds/lab";
+import { Color, ColorChooser, FormField, Input } from "@salt-ds/lab";
 import { useCallback, Fragment } from "react";
 import { ColorToken } from "../../themes/types";
-import { isThemeToken } from "../../themes/utils";
+import {
+  getValueReferenceInner,
+  isThemeToken,
+  isTokenValueReference,
+  makeValueReference,
+} from "../../themes/utils";
 
 const IndividualPicker = ({
   color: colorProp,
@@ -10,23 +15,39 @@ const IndividualPicker = ({
   color: ColorToken["$value"];
   onColorChange?: (newColor: ColorToken["$value"]) => void;
 }) => {
-  const { r, g, b, a } = colorProp;
-  const color = Color.makeColorFromRGB(r, g, b, a);
+  if (isTokenValueReference(colorProp)) {
+    const referencePointer = getValueReferenceInner(colorProp);
+    return (
+      <FormField label="Reference" fullWidth={false}>
+        <Input
+          value={referencePointer}
+          onChange={(_, newValue) =>
+            onColorChange?.(makeValueReference(newValue))
+          }
+        />
+      </FormField>
+    );
+  } else {
+    const { r, g, b, a } = colorProp;
+    const color = Color.makeColorFromRGB(r, g, b, a);
 
-  const onSelect = useCallback(
-    (color?: Color) => {
-      if (color) {
-        const rgba = color.rgba;
-        if (rgba.a === 1) {
-          onColorChange?.({ r: rgba.r, g: rgba.g, b: rgba.b });
-        } else {
-          onColorChange?.(rgba);
+    const onSelect = useCallback(
+      (color?: Color) => {
+        if (color) {
+          const rgba = color.rgba;
+          if (rgba.a === 1) {
+            onColorChange?.({ r: rgba.r, g: rgba.g, b: rgba.b });
+          } else {
+            onColorChange?.(rgba);
+          }
         }
-      }
-    },
-    [onColorChange]
-  );
-  return <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />;
+      },
+      [onColorChange]
+    );
+    return (
+      <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />
+    );
+  }
 };
 
 const ThemeTokens = ({
@@ -51,7 +72,7 @@ const ThemeTokens = ({
             onColorChange={(newColor) => {
               return onThemeObjChange?.({
                 $type,
-                value: newColor,
+                $value: newColor,
                 ...restToken,
               });
             }}
