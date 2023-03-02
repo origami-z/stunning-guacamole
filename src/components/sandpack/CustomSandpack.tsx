@@ -17,7 +17,7 @@ import {
 const MutableKeyMap = completionKeymap.slice();
 
 const CustomLayout = () => {
-  const [showEditor, setShowEditor] = useState(false);
+  const [showEditor, setShowEditor] = useState(true);
   return (
     <StackLayout>
       <SandpackLayout>

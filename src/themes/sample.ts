@@ -61,6 +61,21 @@ export const simpleSample = {
           },
         },
       },
+      info: {
+        foreground: {
+          $type: "color",
+          // Purple 700
+          $value: {
+            r: 103,
+            g: 46,
+            b: 122,
+          },
+        },
+        border: {
+          $type: "color",
+          $value: `{salt.color.purple.700}`,
+        },
+      },
     },
   },
 };

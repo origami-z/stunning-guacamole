@@ -67,6 +67,8 @@ describe("convertThemeObjToCss", () => {
       "--salt-palette-interact-background: rgb(255, 255, 255);",
       "--salt-palette-interact-background-hover: rgb(249, 224, 247);",
       "--salt-palette-interact-background-active: rgb(243, 189, 238);",
+      "--salt-palette-info-foreground: rgb(103, 46, 122);",
+      "--salt-palette-info-border: var(--salt-color-purple-700);",
     ]);
   });
 });
