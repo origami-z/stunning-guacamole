@@ -6,9 +6,9 @@ describe("convertThemeObjToCss", () => {
     expect(
       convertThemeObjToCss({
         active: {
-          type: "color",
+          $type: "color",
           // Orange 800
-          value: {
+          $value: {
             r: 204,
             g: 68,
             b: 13,
@@ -22,17 +22,17 @@ describe("convertThemeObjToCss", () => {
     expect(
       convertThemeObjToCss({
         background: {
-          type: "color",
+          $type: "color",
           // Orange 700
-          value: {
+          $value: {
             r: 214,
             g: 85,
             b: 19,
           },
           active: {
-            type: "color",
+            $type: "color",
             // Orange 800
-            value: {
+            $value: {
               r: 204,
               g: 68,
               b: 13,

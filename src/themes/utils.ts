@@ -8,13 +8,14 @@ export const convertThemeObjToCss = (themeObj: any): string[] => {
       const objValue = themeObj[k];
 
       if (isThemeToken(objValue)) {
-        const { type, value, ...restObj } = objValue;
+        // TODO: filter keys based on prefix `$`
+        const { $type, $value, ...restObj } = objValue;
 
         const allCss: string[] = [];
-        if (type === "color") {
-          allCss.push(k + ": " + convertColorTokenToCSS({ type, value }));
+        if ($type === "color") {
+          allCss.push(k + ": " + convertColorTokenToCSS({ $type, $value }));
         } else {
-          console.warn("Unimplemented CSS conversion for type: " + type);
+          console.warn("Unimplemented CSS conversion for type: " + $type);
         }
 
         const restCss = convertThemeObjToCss(restObj).map(
@@ -39,8 +40,8 @@ export const convertThemeObjToCss = (themeObj: any): string[] => {
 };
 
 export const convertColorTokenToCSS = (token: ColorToken): string => {
-  const { value } = token;
-  const { r, g, b, a } = value;
+  const $value = token["$value"];
+  const { r, g, b, a } = $value;
   if (a) {
     return `rgba(${r}, ${g}, ${b}, ${a})`;
   } else {
@@ -53,31 +54,31 @@ export type ThemeToken = ColorToken;
 export const isThemeToken = (obj: any, debug?: boolean): obj is ThemeToken => {
   debug && console.log("isThemeToken", obj);
   if (typeof obj === "object") {
-    const type = obj.type;
-    if (type) {
-      const value = obj.value;
-      if (value) {
-        if (TOKEN_TYPES.includes(type)) {
-          switch (type) {
+    const $type = obj.$type;
+    if ($type) {
+      const $value = obj.$value;
+      if ($value) {
+        if (TOKEN_TYPES.includes($type)) {
+          switch ($type) {
             case "color": {
-              if (typeof value === "object") {
+              if (typeof $value === "object") {
                 if (
-                  typeof value.r === "number" &&
-                  typeof value.g === "number" &&
-                  typeof value.b === "number"
+                  typeof $value.r === "number" &&
+                  typeof $value.g === "number" &&
+                  typeof $value.b === "number"
                 ) {
                   return true;
                 } else {
                   debug &&
                     console.warn(
-                      `value of "color" token needs to have r/g/b number values: ${value}`
+                      `value of "color" token needs to have r/g/b number values: ${$value}`
                     );
                   return false;
                 }
               } else {
                 debug &&
                   console.warn(
-                    `value of "color" token is not "object": ${value}`
+                    `value of "color" token is not "object": ${$value}`
                   );
                 return false;
               }
@@ -85,13 +86,13 @@ export const isThemeToken = (obj: any, debug?: boolean): obj is ThemeToken => {
             default: {
               debug &&
                 console.warn(
-                  `Not implemented validation token type "${type}""`
+                  `Not implemented validation token type "${$type}""`
                 );
               return false;
             }
           }
         } else {
-          debug && console.warn(`Unsupported token type "${type}""`);
+          debug && console.warn(`Unsupported token type "${$type}""`);
           return false;
         }
       } else {
