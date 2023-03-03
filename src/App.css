@@ -1,5 +1,6 @@
 .custom-wrapper {
-  height: calc(100vh - 16px);
+  /* Prod build has different height than local ones, using !important for now */
+  height: calc(100vh - 16px) !important;
 }
 
 .custom-layout {
