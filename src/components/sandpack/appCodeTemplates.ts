@@ -1,8 +1,6 @@
 export const APP_TEMPLATE_1 = `import { Button, SaltProvider, StackLayout, FlexLayout, Tooltip } from '@salt-ds/core';
 import { InfoIcon, ThumbsUpIcon, ThumbsDownIcon } from '@salt-ds/icons';
 import { List } from '@salt-ds/lab';
-import "./Theme.css";
-import "./App.css";
 
 const shortColorData = [
   'Baby blue',
@@ -53,9 +51,6 @@ import {
   ShareIcon,
   TearOutIcon,
 } from '@salt-ds/icons';
-
-import "./Theme.css";
-import "./App.css";
 
 const ToolbarSample = () => {
   const typeData = ['Open', 'Close', 'Discarded', 'Resolved'];

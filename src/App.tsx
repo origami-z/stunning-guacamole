@@ -42,7 +42,7 @@ const InnerApp = () => {
               className="show-code-editor-toggle"
               toggled={showCodeEditor}
               onToggle={(_, newValue) => setShowCodeEditor(newValue)}
-              tooltipText="JSON view of the theme"
+              tooltipText="Use editor to change value type if needed"
             >
               <DocumentIcon /> JSON
             </ToggleButton>

@@ -21,24 +21,19 @@ export const DEFAULT_VITE_FILES: SandpackState["files"] = {
   [APP_FILE]: {
     code: APP_TEMPLATE_1,
   },
-  "/App.css": {
-    code: "",
-  },
-  "/styles.css": {
-    code: ``,
-    hidden: true,
+  [THEME_FILE]: {
+    code: getCodeForCSS(DEFAULT_TOKENS),
   },
   "/index.tsx": {
     code: `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
-// Import <SaltProvider>
 import { SaltProvider } from "@salt-ds/core";
 
-// Import theme CSS
+// Import Salt default theme CSS
 import "@salt-ds/theme/index.css";
 
-import "./styles.css";
+// Import custom theme auto generated from JSON
+import "./Theme.css";
 
 import App from "./App";
 
@@ -103,8 +98,5 @@ plugins: [react()],
 });
 `,
     hidden: true,
-  },
-  [THEME_FILE]: {
-    code: getCodeForCSS(DEFAULT_TOKENS),
   },
 };

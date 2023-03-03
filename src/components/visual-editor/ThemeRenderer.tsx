@@ -92,6 +92,10 @@ const ThemeTokens = ({
   return null;
 };
 
+/**
+ * Very naive implementation meant for demo purposes, displaying all tokens in a long list
+ * and doesn't support switch token value type if needed.
+ */
 export const ThemeRenderer = ({
   name = "Custom theme",
   themeObj,
