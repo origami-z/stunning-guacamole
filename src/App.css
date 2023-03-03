@@ -12,9 +12,35 @@
   height: 100%;
 }
 
+.theme-definition-panel.saltFlexItem {
+  flex-basis: 33%;
+}
+
+.sandpack-preview-panel.saltFlexItem {
+  flex-basis: 66%;
+}
+
 .theme-renderer-card.saltCard {
   flex: 1 1 auto;
   overflow-y: auto;
+  position: relative;
+}
+
+.theme-renderer-card.saltCard {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  position: relative;
+}
+.code-editor-card.saltCard .saltCard-content {
+  padding: 0;
+  height: 100%;
+}
+
+.show-code-editor-toggle.saltToggleButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
 }
 
 .template-picker-card {

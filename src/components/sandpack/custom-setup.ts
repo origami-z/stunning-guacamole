@@ -12,13 +12,10 @@ export const SALT_DEPENDENCIES = {
 };
 export const APP_FILE = "/App.tsx";
 export const THEME_FILE = "/Theme.css";
-export const THEME_JSON = "/theme.json";
 
 export const getCodeForCSS = (theme: any) => `.custom-theme.salt-theme {
   ${convertThemeObjToCss(theme).join("\n  ")}
 }`;
-
-export const getCodeForJson = (theme: any) => JSON.stringify(theme, null, 2);
 
 export const DEFAULT_VITE_FILES: SandpackState["files"] = {
   [APP_FILE]: {
@@ -109,9 +106,5 @@ plugins: [react()],
   },
   [THEME_FILE]: {
     code: getCodeForCSS(DEFAULT_TOKENS),
-  },
-  [THEME_JSON]: {
-    code: getCodeForJson(DEFAULT_TOKENS),
-    readOnly: true,
   },
 };
