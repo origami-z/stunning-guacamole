@@ -12,18 +12,28 @@ export const SampleToken1 = {
       "20": {
         $type: "color",
         $value: {
-          r: 200,
+          r: 170,
           g: 0,
           b: 0,
         },
       },
     },
-    gray: {
-      $type: "color",
-      $value: {
-        r: 200,
-        g: 200,
-        b: 200,
+    orange: {
+      "10": {
+        $type: "color",
+        $value: {
+          r: 252,
+          g: 197,
+          b: 142,
+        },
+      },
+      "20": {
+        $type: "color",
+        $value: {
+          r: 249,
+          g: 174,
+          b: 100,
+        },
       },
     },
   },
@@ -43,10 +53,10 @@ export const SampleToken1 = {
         primary: {
           background: {
             $type: "color",
-            $value: `{brand.gray}`,
+            $value: `{brand.orange.10}`,
             hover: {
               $type: "color",
-              $value: `{salt.color.gray.40}`,
+              $value: `{brand.orange.20}`,
             },
           },
         },
