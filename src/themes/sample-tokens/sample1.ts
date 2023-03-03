@@ -79,6 +79,18 @@ export const SampleToken1 = {
           },
         },
       },
+      neutral: {
+        secondary: {
+          background: {
+            $type: "color",
+            $value: {
+              r: 195,
+              g: 217,
+              b: 243,
+            },
+          },
+        },
+      },
     },
   },
 };
