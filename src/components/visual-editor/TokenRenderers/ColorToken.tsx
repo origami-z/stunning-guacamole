@@ -44,7 +44,9 @@ export const ColorTokenRenderer = ({
       [onColorChange]
     );
     return (
-      <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />
+      <div>
+        <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />
+      </div>
     );
   }
 };

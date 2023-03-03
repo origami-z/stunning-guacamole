@@ -1,4 +1,4 @@
-import { StackLayout } from "@salt-ds/core";
+import { H1, StackLayout } from "@salt-ds/core";
 import { Fragment } from "react";
 import { isThemeToken, splitObjectKeysByDollar } from "../../themes/utils";
 import { ColorTokenRenderer } from "./TokenRenderers/ColorToken";
@@ -92,16 +92,18 @@ const ThemeTokens = ({
   return null;
 };
 
-export const ColorPickers = ({
+export const ThemeRenderer = ({
+  name = "Custom theme",
   themeObj,
   onThemeObjChange,
 }: {
+  name?: string;
   themeObj: any;
   onThemeObjChange?: (newThemeObj: any) => void;
 }) => {
   return (
     <>
-      <h1>Custom Theme</h1>
+      <H1>{name}</H1>
       <div>
         <ThemeTokens
           themeObj={themeObj}

@@ -1,4 +1,7 @@
-import { ColorOnlySampleTokens, TextSampleTokens } from "../../themes/sample";
+import {
+  ColorOnlySampleTokens,
+  TextSampleTokens,
+} from "../../themes/sample-tokens/default";
 import { convertThemeObjToCss, isThemeToken } from "../../themes/utils";
 
 describe("isThemeToken", () => {

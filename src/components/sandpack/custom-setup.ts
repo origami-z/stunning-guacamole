@@ -1,13 +1,16 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
-import { DEFAULT_TOKENS } from "../../themes/sample";
+import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { convertThemeObjToCss } from "../../themes/utils";
+import { APP_TEMPLATE_1 } from "./appCodeTemplates";
 
 export const dependencies = {
   "@salt-ds/core": "latest",
+  "@salt-ds/data-grid": "latest",
   "@salt-ds/icons": "latest",
   "@salt-ds/lab": "latest",
   "@salt-ds/theme": "latest",
 };
+export const APP_FILE = "/App.tsx";
 export const THEME_FILE = "/Theme.css";
 export const THEME_JSON = "/theme.json";
 
@@ -18,48 +21,8 @@ export const getCodeForCSS = (theme: any) => `.custom-theme.salt-theme {
 export const getCodeForJson = (theme: any) => JSON.stringify(theme, null, 2);
 
 export const DEFAULT_FILES: SandpackState["files"] = {
-  "/App.tsx": {
-    code: `import { Button, SaltProvider, StackLayout, FlexLayout, Tooltip } from '@salt-ds/core';
-import { InfoIcon, ThumbsUpIcon, ThumbsDownIcon } from '@salt-ds/icons';
-import { List } from '@salt-ds/lab';
-import "./Theme.css";
-import "./App.css";
-
-const shortColorData = [
-  'Baby blue',
-  'Black',
-  'Blue',
-  'Brown',
-  'Green',
-  'Orange',
-  'Pink',
-  'Purple',
-  'Red',
-  'White',
-  'Yellow',
-];
-
-export default function App(): JSX.Element {
-  return (
-    <StackLayout>
-      <List source={shortColorData} selected={shortColorData[3]} />
-      <FlexLayout align="center">
-        <Button variant="cta">
-          <ThumbsUpIcon /> CTA
-        </Button>
-        <Button variant="primary">
-          Primary
-        </Button>
-        <Tooltip open content="Tooltip">
-          <Button variant="secondary">
-            <InfoIcon /> Secondary
-          </Button>
-        </Tooltip>
-      </FlexLayout>
-    </StackLayout>
-  )
-}
-`,
+  [APP_FILE]: {
+    code: APP_TEMPLATE_1,
   },
   "/App.css": {
     code: "",
@@ -100,11 +63,11 @@ import App from "./App";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
-<StrictMode>
-<SaltProvider theme="custom-theme">
-<App />
-</SaltProvider>
-</StrictMode>
+  <StrictMode>
+    <SaltProvider theme="custom-theme">
+      <App />
+    </SaltProvider>
+  </StrictMode>
 );`,
     // hidden: true,
   },
