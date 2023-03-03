@@ -1,11 +1,8 @@
-import { FormField, Input, Color, ColorChooser } from "@salt-ds/lab";
+import { Color, ColorChooser } from "@salt-ds/lab";
 import { useCallback } from "react";
 import { ColorToken } from "../../../themes/types";
-import {
-  isTokenValueReference,
-  getValueReferenceInner,
-  makeValueReference,
-} from "../../../themes/utils";
+import { isTokenValueReference } from "../../../themes/utils";
+import { ReferenceValueRenderer } from "./GenericToken";
 
 export const ColorTokenRenderer = ({
   color: colorProp,
@@ -15,16 +12,8 @@ export const ColorTokenRenderer = ({
   onColorChange?: (newColor: ColorToken["$value"]) => void;
 }) => {
   if (isTokenValueReference(colorProp)) {
-    const referencePointer = getValueReferenceInner(colorProp);
     return (
-      <FormField label="Reference" fullWidth={false} style={{ width: 160 }}>
-        <Input
-          value={referencePointer}
-          onChange={(_, newValue) =>
-            onColorChange?.(makeValueReference(newValue))
-          }
-        />
-      </FormField>
+      <ReferenceValueRenderer value={colorProp} onValueChange={onColorChange} />
     );
   } else {
     const { r, g, b, a } = colorProp;

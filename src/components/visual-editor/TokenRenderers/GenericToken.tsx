@@ -1,11 +1,32 @@
-import { FormField, Input, Color, ColorChooser } from "@salt-ds/lab";
-import { useCallback } from "react";
-import { ColorToken } from "../../../themes/types";
+import { FormField, Input } from "@salt-ds/lab";
+import { ReferenceValue } from "../../../themes/types";
 import {
-  isTokenValueReference,
   getValueReferenceInner,
+  isTokenValueReference,
   makeValueReference,
 } from "../../../themes/utils";
+
+export const ReferenceValueRenderer = ({
+  value,
+  onValueChange,
+}: {
+  value: ReferenceValue;
+  onValueChange?: (newValue: ReferenceValue) => void;
+}) => {
+  const referencePointer = getValueReferenceInner(value);
+  return (
+    <FormField label="Reference" style={{ width: 160 }}>
+      <Input
+        value={referencePointer}
+        onChange={(_, newValue) =>
+          onValueChange?.(makeValueReference(newValue))
+        }
+        startAdornment="{"
+        endAdornment="}"
+      />
+    </FormField>
+  );
+};
 
 export const GenericTokenRenderer = <T extends any>({
   value,
@@ -15,16 +36,11 @@ export const GenericTokenRenderer = <T extends any>({
   onValueChange?: (newValue: T) => void;
 }) => {
   if (isTokenValueReference(value)) {
-    const referencePointer = getValueReferenceInner(value);
     return (
-      <FormField label="Reference" style={{ width: 160 }}>
-        <Input
-          value={referencePointer}
-          onChange={(_, newValue) =>
-            onValueChange?.(makeValueReference(newValue) as T)
-          }
-        />
-      </FormField>
+      <ReferenceValueRenderer
+        value={value}
+        onValueChange={onValueChange as any}
+      />
     );
   } else if (typeof value === "string") {
     return (
