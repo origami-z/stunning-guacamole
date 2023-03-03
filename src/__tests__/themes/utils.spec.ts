@@ -1,5 +1,33 @@
 import { simpleSample } from "../../themes/sample";
-import { convertThemeObjToCss } from "../../themes/utils";
+import { convertThemeObjToCss, isThemeToken } from "../../themes/utils";
+
+describe("isThemeToken", () => {
+  describe("color token", () => {
+    test("returns true for rgb value", () => {
+      expect(
+        isThemeToken({
+          $type: "color",
+          // Orange 800
+          $value: {
+            r: 204,
+            g: 68,
+            b: 13,
+          },
+        })
+      ).toEqual(true);
+    });
+
+    test("returns true for reference value", () => {
+      expect(
+        isThemeToken({
+          $type: "color",
+          // Orange 800
+          $value: "{a.b.c}",
+        })
+      ).toEqual(true);
+    });
+  });
+});
 
 describe("convertThemeObjToCss", () => {
   test("converts single token", () => {

@@ -5,6 +5,19 @@ import {
   TOKEN_TYPES,
 } from "./types";
 
+const splitObjectKeysByDollar = (input: { [key: string]: any }) => {
+  const with$: { [key: string]: any } = {};
+  const others: { [key: string]: any } = {};
+  Object.keys(input).forEach((key) => {
+    if (key.startsWith("$")) {
+      with$[key] = input[key];
+    } else {
+      others[key] = input[key];
+    }
+  });
+  return [with$, others] as const;
+};
+
 const innerCssConvertLoop = (themeObj: any): string[] => {
   if (typeof themeObj === "object") {
     const allKeys = Object.keys(themeObj);
@@ -13,17 +26,19 @@ const innerCssConvertLoop = (themeObj: any): string[] => {
       const objValue = themeObj[k];
 
       if (isThemeToken(objValue)) {
-        // TODO: filter keys based on prefix `$`
-        const { $type, $value, ...restObj } = objValue;
+        const [with$, others] = splitObjectKeysByDollar(objValue);
+        const { $type, $value, ...rest$ } = with$;
 
         const allCss: string[] = [];
         if ($type === "color") {
-          allCss.push(k + ": " + convertColorTokenToCSS({ $type, $value }));
+          allCss.push(
+            k + ": " + convertColorTokenToCSS({ $type, $value, ...rest$ })
+          );
         } else {
           console.warn("Unimplemented CSS conversion for type: " + $type);
         }
 
-        const restCss = innerCssConvertLoop(restObj).map(
+        const restCss = innerCssConvertLoop(others).map(
           (mappedCode) => `${k}-${mappedCode}`
         );
         allCss.push(...restCss);
