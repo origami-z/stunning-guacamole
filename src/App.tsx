@@ -1,10 +1,6 @@
 import { Card, FlexItem, FlexLayout, StackLayout } from "@salt-ds/core";
 import { useState } from "react";
-import {
-  CustomSandpack,
-  DEFAULT_FILES,
-  dependencies,
-} from "./components/sandpack";
+import { CustomSandpack, DEFAULT_VITE_FILES } from "./components/sandpack";
 import { ThemeRenderer } from "./components/visual-editor/ThemeRenderer";
 import { DEFAULT_TOKENS } from "./themes/sample-tokens/default";
 
@@ -47,12 +43,12 @@ const InnerApp = () => {
 const App = () => {
   return (
     <SandpackProvider
-      template="react-ts"
       theme="light"
       customSetup={{
-        dependencies,
+        entry: "/App.tsx",
+        environment: "node",
       }}
-      files={DEFAULT_FILES}
+      files={DEFAULT_VITE_FILES}
       options={{
         classes: {
           "sp-wrapper": "custom-wrapper",

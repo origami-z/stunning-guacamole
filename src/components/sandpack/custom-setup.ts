@@ -3,7 +3,7 @@ import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { convertThemeObjToCss } from "../../themes/utils";
 import { APP_TEMPLATE_1 } from "./appCodeTemplates";
 
-export const dependencies = {
+export const SALT_DEPENDENCIES = {
   "@salt-ds/core": "latest",
   "@salt-ds/data-grid": "latest",
   "@salt-ds/icons": "latest",
@@ -20,35 +20,19 @@ export const getCodeForCSS = (theme: any) => `.custom-theme.salt-theme {
 
 export const getCodeForJson = (theme: any) => JSON.stringify(theme, null, 2);
 
-export const DEFAULT_FILES: SandpackState["files"] = {
+export const DEFAULT_VITE_FILES: SandpackState["files"] = {
   [APP_FILE]: {
     code: APP_TEMPLATE_1,
   },
   "/App.css": {
     code: "",
   },
-  "/public/index.html": {
-    code: `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Mono&display=swap"
-rel="stylesheet"
-/>
-</head>
-<body>
-<div id="root"></div>
-</body>
-</html>`,
+  "/styles.css": {
+    code: ``,
     hidden: true,
   },
   "/index.tsx": {
-    code: `import React, { StrictMode } from "react";
+    code: `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 // Import <SaltProvider>
@@ -69,7 +53,59 @@ root.render(
     </SaltProvider>
   </StrictMode>
 );`,
-    // hidden: true,
+  },
+  "/index.html": {
+    code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Mono&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
+`,
+    hidden: true,
+  },
+  "/package.json": {
+    code: JSON.stringify({
+      scripts: {
+        dev: "vite",
+        build: "vite build",
+        preview: "vite preview",
+      },
+      dependencies: {
+        react: "^18.2.0",
+        "react-dom": "^18.2.0",
+        ...SALT_DEPENDENCIES,
+      },
+      devDependencies: {
+        "@vitejs/plugin-react": "3.1.0",
+        vite: "4.0.0",
+        "esbuild-wasm": "0.15.12",
+      },
+    }),
+    hidden: true,
+  },
+  "/vite.config.js": {
+    code: `import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+plugins: [react()],
+});
+`,
+    hidden: true,
   },
   [THEME_FILE]: {
     code: getCodeForCSS(DEFAULT_TOKENS),
