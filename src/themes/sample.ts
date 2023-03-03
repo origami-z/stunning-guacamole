@@ -97,9 +97,21 @@ export const TextSampleTokens = {
   },
 };
 
+export const SizeSampleTokens = {
+  salt: {
+    size: {
+      unit: {
+        $type: "spacing",
+        $value: "8px",
+      },
+    },
+  },
+};
+
 export const DEFAULT_TOKENS = {
   salt: {
     ...ColorOnlySampleTokens.salt,
+    ...SizeSampleTokens.salt,
     ...TextSampleTokens.salt,
   },
 };
