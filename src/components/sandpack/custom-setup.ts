@@ -1,6 +1,6 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
-import { SALT_LIGHT_THEME } from "../../themes/saltLight";
-import { ThumbsUpIcon, ThumbsDownIcon, InfoIcon } from "@salt-ds/icons";
+import { simpleSample } from "../../themes/sample";
+import { convertThemeObjToCss } from "../../themes/utils";
 
 export const dependencies = {
   "@salt-ds/core": "latest",
@@ -8,9 +8,18 @@ export const dependencies = {
   "@salt-ds/lab": "latest",
   "@salt-ds/theme": "latest",
 };
+export const THEME_FILE = "/Theme.css";
+export const THEME_JSON = "/theme.json";
+
+export const getCodeForCSS = (theme: any) => `.custom-theme.salt-theme {
+  ${convertThemeObjToCss(theme).join("\n  ")}
+}`;
+
+export const getCodeForJson = (theme: any) => JSON.stringify(theme, null, 2);
+
 export const DEFAULT_FILES: SandpackState["files"] = {
   "/App.tsx": {
-    code: `import { Button, SaltProvider, StackLayout, FlexLayout } from '@salt-ds/core';
+    code: `import { Button, SaltProvider, StackLayout, FlexLayout, Tooltip } from '@salt-ds/core';
 import { InfoIcon, ThumbsUpIcon, ThumbsDownIcon } from '@salt-ds/icons';
 import { List } from '@salt-ds/lab';
 import "./Theme.css";
@@ -34,16 +43,18 @@ export default function App(): JSX.Element {
   return (
     <StackLayout>
       <List source={shortColorData} selected={shortColorData[3]} />
-      <FlexLayout>
+      <FlexLayout align="center">
         <Button variant="cta">
           <ThumbsUpIcon /> CTA
         </Button>
         <Button variant="primary">
           Primary
         </Button>
-        <Button variant="secondary">
-          <InfoIcon /> Secondary
-        </Button>
+        <Tooltip open content="Tooltip">
+          <Button variant="secondary">
+            <InfoIcon /> Secondary
+          </Button>
+        </Tooltip>
       </FlexLayout>
     </StackLayout>
   )
@@ -96,5 +107,12 @@ root.render(
 </StrictMode>
 );`,
     // hidden: true,
+  },
+  [THEME_FILE]: {
+    code: getCodeForCSS(simpleSample),
+  },
+  [THEME_JSON]: {
+    code: getCodeForJson(simpleSample),
+    readOnly: true,
   },
 };
