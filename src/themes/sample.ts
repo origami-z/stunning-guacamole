@@ -1,4 +1,4 @@
-export const simpleSample = {
+export const ColorOnlySampleTokens = {
   salt: {
     palette: {
       interact: {
@@ -77,5 +77,29 @@ export const simpleSample = {
         },
       },
     },
+  },
+};
+
+export const TextSampleTokens = {
+  salt: {
+    text: {
+      fontSize: {
+        $type: "font-size",
+        $value: "12px",
+      },
+    },
+    typography: {
+      fontFamily: {
+        $type: "font-family",
+        $value: '"Open Sans"',
+      },
+    },
+  },
+};
+
+export const DEFAULT_TOKENS = {
+  salt: {
+    ...ColorOnlySampleTokens.salt,
+    ...TextSampleTokens.salt,
   },
 };

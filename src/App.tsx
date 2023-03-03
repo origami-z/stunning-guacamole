@@ -6,14 +6,14 @@ import {
   dependencies,
 } from "./components/sandpack";
 import { ColorPickers } from "./components/visual-editor/ColorPickers";
-import { simpleSample } from "./themes/sample";
+import { DEFAULT_TOKENS } from "./themes/sample";
 
 import { SandpackProvider } from "@codesandbox/sandpack-react";
 
 import "./App.css";
 
 const InnerApp = () => {
-  const [customTheme, setCustomTheme] = useState<any>(simpleSample);
+  const [customTheme, setCustomTheme] = useState<any>(DEFAULT_TOKENS);
   console.log("InnerApp", customTheme);
 
   return (

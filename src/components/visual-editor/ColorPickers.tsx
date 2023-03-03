@@ -1,54 +1,8 @@
-import { Color, ColorChooser, FormField, Input } from "@salt-ds/lab";
-import { useCallback, Fragment } from "react";
-import { ColorToken } from "../../themes/types";
-import {
-  getValueReferenceInner,
-  isThemeToken,
-  isTokenValueReference,
-  makeValueReference,
-} from "../../themes/utils";
-
-const IndividualPicker = ({
-  color: colorProp,
-  onColorChange,
-}: {
-  color: ColorToken["$value"];
-  onColorChange?: (newColor: ColorToken["$value"]) => void;
-}) => {
-  if (isTokenValueReference(colorProp)) {
-    const referencePointer = getValueReferenceInner(colorProp);
-    return (
-      <FormField label="Reference" fullWidth={false}>
-        <Input
-          value={referencePointer}
-          onChange={(_, newValue) =>
-            onColorChange?.(makeValueReference(newValue))
-          }
-        />
-      </FormField>
-    );
-  } else {
-    const { r, g, b, a } = colorProp;
-    const color = Color.makeColorFromRGB(r, g, b, a);
-
-    const onSelect = useCallback(
-      (color?: Color) => {
-        if (color) {
-          const rgba = color.rgba;
-          if (rgba.a === 1) {
-            onColorChange?.({ r: rgba.r, g: rgba.g, b: rgba.b });
-          } else {
-            onColorChange?.(rgba);
-          }
-        }
-      },
-      [onColorChange]
-    );
-    return (
-      <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />
-    );
-  }
-};
+import { StackLayout } from "@salt-ds/core";
+import { Fragment } from "react";
+import { isThemeToken, splitObjectKeysByDollar } from "../../themes/utils";
+import { ColorTokenRenderer } from "./TokenRenderers/ColorToken";
+import { GenericTokenRenderer } from "./TokenRenderers/GenericToken";
 
 const ThemeTokens = ({
   themeObj,
@@ -59,33 +13,45 @@ const ThemeTokens = ({
   onThemeObjChange?: (newThemeObj: any) => void;
   level?: number;
 }) => {
-  if (isThemeToken(themeObj)) {
+  const [with$, others] = splitObjectKeysByDollar(themeObj);
+  const { $type, $value, ...rest$ } = with$;
+  // if (isThemeToken(themeObj)) {
+  if ($type && $value) {
     const { $type, $value, ...restToken } = themeObj;
 
     let tokenRenderer;
 
     if ($type === "color") {
       tokenRenderer = (
-        <div>
-          <IndividualPicker
-            color={$value}
-            onColorChange={(newColor) => {
-              return onThemeObjChange?.({
-                $type,
-                $value: newColor,
-                ...restToken,
-              });
-            }}
-          />
-        </div>
+        <ColorTokenRenderer
+          color={$value}
+          onColorChange={(newColor) => {
+            return onThemeObjChange?.({
+              $type,
+              $value: newColor,
+              ...restToken,
+            });
+          }}
+        />
       );
     } else {
-      console.warn("Unimplemented renderer for token", themeObj);
-      tokenRenderer = null;
+      // console.warn("Unimplemented renderer for token", themeObj);
+      tokenRenderer = (
+        <GenericTokenRenderer
+          value={$value}
+          onValueChange={(newValue) => {
+            return onThemeObjChange?.({
+              $type,
+              $value: newValue,
+              ...restToken,
+            });
+          }}
+        />
+      );
     }
 
     return (
-      <>
+      <StackLayout gap={1}>
         {tokenRenderer}
         <ThemeTokens
           themeObj={restToken}
@@ -93,7 +59,7 @@ const ThemeTokens = ({
             onThemeObjChange?.({ $type, $value, ...newToken });
           }}
         />
-      </>
+      </StackLayout>
     );
   } else if (typeof themeObj === "object") {
     const Element: any = level

@@ -5,7 +5,7 @@ import {
   TOKEN_TYPES,
 } from "./types";
 
-const splitObjectKeysByDollar = (input: { [key: string]: any }) => {
+export const splitObjectKeysByDollar = (input: { [key: string]: any }) => {
   const with$: { [key: string]: any } = {};
   const others: { [key: string]: any } = {};
   Object.keys(input).forEach((key) => {
@@ -25,7 +25,7 @@ const innerCssConvertLoop = (themeObj: any): string[] => {
     return allKeys.flatMap((k) => {
       const objValue = themeObj[k];
 
-      if (isThemeToken(objValue)) {
+      if (isThemeToken(objValue, true)) {
         const [with$, others] = splitObjectKeysByDollar(objValue);
         const { $type, $value, ...rest$ } = with$;
 
@@ -35,7 +35,19 @@ const innerCssConvertLoop = (themeObj: any): string[] => {
             k + ": " + convertColorTokenToCSS({ $type, $value, ...rest$ })
           );
         } else {
-          console.warn("Unimplemented CSS conversion for type: " + $type);
+          if (isTokenValueReference($value)) {
+            allCss.push(k + ": " + convertValueReferenceToCSSValue($value));
+          } else {
+            try {
+              allCss.push(k + ": " + $value.toString());
+            } catch (e) {
+              console.error(
+                "Unimplemented CSS conversion for type: " + $type,
+                +", value: ",
+                $value
+              );
+            }
+          }
         }
 
         const restCss = innerCssConvertLoop(others).map(
@@ -146,19 +158,25 @@ export const isValidColorTokenValue = (
 
 export type ThemeToken = ColorToken;
 
-export const isThemeToken = (obj: any, debug?: boolean): obj is ThemeToken => {
+export const isThemeToken = (
+  obj: any,
+  loose?: boolean,
+  debug?: boolean
+): obj is ThemeToken => {
   debug && console.log("isThemeToken", obj);
   if (typeof obj === "object") {
     const $type = obj.$type;
     if ($type) {
       const $value = obj.$value;
       if ($value) {
-        if (TOKEN_TYPES.includes($type)) {
-          switch ($type) {
-            case "color": {
-              return isValidColorTokenValue($value, debug);
-            }
-            default: {
+        switch ($type) {
+          case "color": {
+            return isValidColorTokenValue($value, debug);
+          }
+          default: {
+            if (loose) {
+              return true;
+            } else {
               debug &&
                 console.warn(
                   `Not implemented validation token type "${$type}""`
@@ -166,9 +184,6 @@ export const isThemeToken = (obj: any, debug?: boolean): obj is ThemeToken => {
               return false;
             }
           }
-        } else {
-          debug && console.warn(`Unsupported token type "${$type}""`);
-          return false;
         }
       } else {
         debug && console.warn(`No 'value' field`);
@@ -183,3 +198,35 @@ export const isThemeToken = (obj: any, debug?: boolean): obj is ThemeToken => {
     return false;
   }
 };
+
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+export function isObject(item: any) {
+  return item && typeof item === "object" && !Array.isArray(item);
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+export function mergeDeep(target: any, ...sources: any): any {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources);
+}

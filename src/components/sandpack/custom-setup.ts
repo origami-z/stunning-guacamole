@@ -1,5 +1,5 @@
 import { SandpackState } from "@codesandbox/sandpack-react";
-import { simpleSample } from "../../themes/sample";
+import { DEFAULT_TOKENS } from "../../themes/sample";
 import { convertThemeObjToCss } from "../../themes/utils";
 
 export const dependencies = {
@@ -109,10 +109,10 @@ root.render(
     // hidden: true,
   },
   [THEME_FILE]: {
-    code: getCodeForCSS(simpleSample),
+    code: getCodeForCSS(DEFAULT_TOKENS),
   },
   [THEME_JSON]: {
-    code: getCodeForJson(simpleSample),
+    code: getCodeForJson(DEFAULT_TOKENS),
     readOnly: true,
   },
 };
