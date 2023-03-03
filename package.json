@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.4.2",
-    "@codesandbox/sandpack-react": "^2.0.17",
+    "@codesandbox/sandpack-react": "^2.0.26",
     "@monaco-editor/react": "^4.4.6",
     "@salt-ds/core": "^1.2.0",
     "@salt-ds/icons": "^1.1.0",
