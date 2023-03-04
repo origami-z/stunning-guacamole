@@ -84,13 +84,13 @@ export const TextSampleTokens = {
   salt: {
     text: {
       fontSize: {
-        $type: "font-size",
+        $type: "fontSize",
         $value: "12px",
       },
     },
     typography: {
       fontFamily: {
-        $type: "font-family",
+        $type: "fontFamily",
         $value: '"Open Sans"',
       },
     },

@@ -38,14 +38,45 @@ const innerCssConvertLoop = (themeObj: any): string[] => {
           if (isTokenValueReference($value)) {
             allCss.push(k + ": " + convertValueReferenceToCSSValue($value));
           } else {
-            try {
-              allCss.push(k + ": " + $value.toString());
-            } catch (e) {
-              console.error(
-                "Unimplemented CSS conversion for type: " + $type,
-                +", value: ",
-                $value
-              );
+            if (typeof $value === "object") {
+              Object.keys($value).forEach((valueKey) => {
+                const valueValue = $value[valueKey];
+                if (typeof valueValue === "object") {
+                  console.error(
+                    "Nested object value is not allowed: ",
+                    valueValue
+                  );
+                } else if (isTokenValueReference(valueValue)) {
+                  allCss.push(
+                    `${k}-${valueKey}: ${convertValueReferenceToCSSValue(
+                      valueValue
+                    )}`
+                  );
+                } else {
+                  // Try converting all other types of value using `toString`, or ignore
+                  try {
+                    allCss.push(`${k}-${valueKey}: ${valueValue.toString()}`);
+                  } catch (e) {
+                    console.error(
+                      "Unimplemented CSS conversion for nested value in type: " +
+                        $type,
+                      +", nested value: ",
+                      valueValue
+                    );
+                  }
+                }
+              });
+            } else {
+              // Try converting all other types of value using `toString`, or ignore
+              try {
+                allCss.push(k + ": " + $value.toString());
+              } catch (e) {
+                console.error(
+                  "Unimplemented CSS conversion for type: " + $type,
+                  +", value: ",
+                  $value
+                );
+              }
             }
           }
         }

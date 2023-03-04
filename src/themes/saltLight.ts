@@ -1,3 +1,4 @@
+// For reference only - from https://github.com/jpmorganchase/salt-ds/blob/main/packages/theme/css/foundations/palette.css
 export const SALT_LIGHT_THEME = `{
   --salt-palette-accent-background: var(--salt-color-blue-500);
   --salt-palette-accent-border: var(--salt-color-blue-500);

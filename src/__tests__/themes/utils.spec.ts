@@ -120,7 +120,6 @@ describe("convertThemeObjToCss", () => {
         convertThemeObjToCss({
           token: {
             $type: "unknown",
-            // Orange 800
             $value: "{a.b.c}",
           },
         })
@@ -132,7 +131,6 @@ describe("convertThemeObjToCss", () => {
         convertThemeObjToCss({
           token: {
             $type: "unknown",
-            // Orange 800
             $value: "value",
           },
         })
@@ -144,11 +142,29 @@ describe("convertThemeObjToCss", () => {
         convertThemeObjToCss({
           token: {
             $type: "unknown",
-            // Orange 800
             $value: 12,
           },
         })
       ).toEqual(["--token: 12;"]);
+    });
+
+    test("supports object value", () => {
+      expect(
+        convertThemeObjToCss({
+          token: {
+            $type: "unknown",
+            $value: {
+              foo: "a",
+              bar: "{ref.value}",
+              lol: 12,
+            },
+          },
+        })
+      ).toEqual([
+        "--token-foo: a;",
+        "--token-bar: var(--ref-value);",
+        "--token-lol: 12;",
+      ]);
     });
   });
 });

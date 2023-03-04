@@ -7,7 +7,8 @@ import {
 } from "@codesandbox/sandpack-react";
 import { Button, StackLayout } from "@salt-ds/core";
 import { useEffect, useState } from "react";
-import { getCodeForCSS, THEME_FILE } from "./custom-setup";
+import { THEME_CSS } from "./constants";
+import { getCodeForCSS } from "./custom-setup";
 
 const MutableKeyMap = completionKeymap.slice();
 
@@ -39,7 +40,7 @@ const CustomLayout = () => {
 const FilesUpdater = ({ theme }: any) => {
   const { sandpack } = useSandpack();
   useEffect(() => {
-    sandpack.updateFile(THEME_FILE, getCodeForCSS(theme), true);
+    sandpack.updateFile(THEME_CSS, getCodeForCSS(theme), true);
   }, [theme]);
 
   return null;

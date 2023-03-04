@@ -1,20 +1,18 @@
-import { Card, FlexItem, FlexLayout, StackLayout } from "@salt-ds/core";
-import { useState } from "react";
-import { CustomSandpack, DEFAULT_VITE_FILES } from "./components/sandpack";
-import { ThemeRenderer } from "./components/visual-editor/ThemeRenderer";
-import { DEFAULT_TOKENS } from "./themes/sample-tokens/default";
-import MonacoEditor from "@monaco-editor/react";
 import { SandpackProvider } from "@codesandbox/sandpack-react";
-import { TemplatePicker } from "./components/visual-editor/TemplatePicker";
-import { ToggleButton } from "@salt-ds/lab";
+import { FlexItem, FlexLayout } from "@salt-ds/core";
+import { useState } from "react";
+import {
+  CustomSandpack,
+  DEFAULT_REACT_TYPESCRIPT_CRA_FILES,
+} from "./components/sandpack";
+import { ThemeEditor } from "./components/ThemeEditor";
+import { DEFAULT_TOKENS } from "./themes/sample-tokens/default";
 
 import "./App.css";
-import { DocumentIcon } from "@salt-ds/icons";
 
+// Split the app into 2 parts, so that we can access SandpackProvider
 const InnerApp = () => {
-  const [themeName, setThemeName] = useState("Custom theme");
   const [customTheme, setCustomTheme] = useState<any>(DEFAULT_TOKENS);
-  const [showCodeEditor, setShowCodeEditor] = useState(false);
 
   return (
     <FlexLayout className="inner-app">
@@ -24,53 +22,10 @@ const InnerApp = () => {
         align="stretch"
         className="theme-definition-panel"
       >
-        <StackLayout style={{ height: "100%" }}>
-          <TemplatePicker
-            onThemeObjChange={(newTheme, newName) => {
-              setCustomTheme(newTheme);
-              setThemeName(newName);
-            }}
-          />
-          <Card
-            className={
-              "theme-renderer-card" +
-              (showCodeEditor ? " code-editor-card" : "")
-            }
-          >
-            <ToggleButton
-              variant="cta"
-              className="show-code-editor-toggle"
-              toggled={showCodeEditor}
-              onToggle={(_, newValue) => setShowCodeEditor(newValue)}
-              tooltipText="Use editor to change value type if needed"
-            >
-              <DocumentIcon /> JSON
-            </ToggleButton>
-            {showCodeEditor ? (
-              <MonacoEditor
-                width="100%"
-                height="100%"
-                language="json"
-                theme="vs-light"
-                key={themeName}
-                defaultValue={JSON.stringify(customTheme, null, 2)}
-                onChange={(value) => {
-                  try {
-                    setCustomTheme(JSON.parse(value || ""));
-                  } catch {
-                    console.log("Invalid JSON, ignore updating theme");
-                  }
-                }}
-              />
-            ) : (
-              <ThemeRenderer
-                name={themeName}
-                themeObj={customTheme}
-                onThemeObjChange={(newTheme) => setCustomTheme(newTheme)}
-              />
-            )}
-          </Card>
-        </StackLayout>
+        <ThemeEditor
+          themeObj={customTheme}
+          onThemeObjChange={(newTheme) => setCustomTheme(newTheme)}
+        />
       </FlexItem>
       <FlexItem grow={2} shrink={1} className="sandpack-preview-panel">
         <CustomSandpack themeObj={customTheme} />
@@ -79,21 +34,27 @@ const InnerApp = () => {
   );
 };
 
+const CUSTOM_SETUP = DEFAULT_REACT_TYPESCRIPT_CRA_FILES;
+
 const App = () => {
   return (
     <SandpackProvider
       theme="light"
       customSetup={{
-        entry: "/App.tsx",
-        environment: "node",
+        entry: CUSTOM_SETUP.main,
+        environment: CUSTOM_SETUP.environment,
       }}
-      files={DEFAULT_VITE_FILES}
+      files={CUSTOM_SETUP.files}
       options={{
         classes: {
           "sp-wrapper": "custom-wrapper",
           "sp-layout": "custom-layout",
           "sp-tab-button": "custom-tab",
         },
+        externalResources: [
+          // Compensate head bug from sandpack - https://github.com/codesandbox/sandpack/issues/44
+          "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Mono&display=swap",
+        ],
         // Custom bundler URL: https://sandpack.codesandbox.io/docs/guides/hosting-the-bundler
         // bundlerURL: ''
       }}

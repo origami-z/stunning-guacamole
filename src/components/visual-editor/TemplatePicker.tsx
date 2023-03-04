@@ -3,8 +3,11 @@ import { Card, FlexLayout } from "@salt-ds/core";
 import { Dropdown, FormField } from "@salt-ds/lab";
 import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { SampleToken1 } from "../../themes/sample-tokens/sample1";
-import { APP_FILE } from "../sandpack";
-import { APP_TEMPLATE_1, APP_TEMPLATE_2 } from "../sandpack/appCodeTemplates";
+import {
+  APP_TEMPLATE_1,
+  APP_TEMPLATE_2,
+  APP_TEMPLATE_F,
+} from "../sandpack/code-templates";
 
 const ThemeTemplate = [
   {
@@ -19,12 +22,16 @@ const ThemeTemplate = [
 
 const AppCodeTemplate = [
   {
+    name: "Product home page",
+    template: APP_TEMPLATE_F,
+  },
+  {
     name: "List with buttons",
-    code: APP_TEMPLATE_1,
+    template: APP_TEMPLATE_1,
   },
   {
     name: "Toolbar with grid",
-    code: APP_TEMPLATE_2,
+    template: APP_TEMPLATE_2,
   },
 ];
 
@@ -54,9 +61,13 @@ export const TemplatePicker = ({
             selected={null}
             source={AppCodeTemplate}
             itemToString={(item) => (item ? item.name : "")}
-            onSelectionChange={(_, item) =>
-              item && sandpack.updateFile(APP_FILE, item.code, true)
-            }
+            onSelectionChange={(_, item) => {
+              if (item) {
+                Object.entries(item.template).forEach(([file, code]) => {
+                  sandpack.updateFile(file, code, true);
+                });
+              }
+            }}
           />
         </FormField>
       </FlexLayout>
