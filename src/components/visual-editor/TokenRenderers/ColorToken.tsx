@@ -1,7 +1,7 @@
 import { Color, ColorChooser } from "@salt-ds/lab";
 import { useCallback } from "react";
-import { ColorToken } from "../../../themes/types";
-import { isTokenValueReference } from "../../../themes/utils";
+import { ColorToken } from "../../../themes/token-types";
+import { isTokenValueReference } from "../../../themes/token-types";
 import { ReferenceValueRenderer } from "./GenericToken";
 
 export const ColorTokenRenderer = ({

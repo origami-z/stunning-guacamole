@@ -1,18 +1,3 @@
-type ReferenceValuePointer = string;
-export type ReferenceValue = `{${ReferenceValuePointer}}`;
+import { ColorToken } from "./token-types/color-token";
 
-export const TOKEN_TYPES = ["color"] as const;
-
-export type ColorTokenValue =
-  | {
-      r: number;
-      g: number;
-      b: number;
-      a?: number;
-    }
-  | ReferenceValue;
-
-export type ColorToken = {
-  $type: "color";
-  $value: ColorTokenValue;
-};
+export type ThemeToken = ColorToken;

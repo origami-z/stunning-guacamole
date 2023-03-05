@@ -1,10 +1,12 @@
 import { FormField, Input } from "@salt-ds/lab";
-import { ReferenceValue } from "../../../themes/types";
+import {
+  isTokenValueReference,
+  ReferenceValue,
+} from "../../../themes/token-types";
 import {
   getValueReferenceInner,
-  isTokenValueReference,
   makeValueReference,
-} from "../../../themes/utils";
+} from "../../../themes/token-types";
 
 export const ReferenceValueRenderer = ({
   value,
