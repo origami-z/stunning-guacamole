@@ -9,14 +9,15 @@ import { Button, FlexLayout, StackLayout } from "@salt-ds/core";
 import { useEffect, useState } from "react";
 import { THEME_CSS } from "./constants";
 import { getCodeForCSS } from "./custom-setup";
-import { ShareButton } from "./ShareButton";
+
+import "./CustomSandpack.css";
 
 const MutableKeyMap = completionKeymap.slice();
 
-const CustomLayout = ({ theme }: any) => {
+const CustomLayout = () => {
   const [showEditor, setShowEditor] = useState(true);
   return (
-    <StackLayout>
+    <StackLayout gap={1} className="sandpack-preview-panel-inner">
       <SandpackLayout>
         {showEditor && (
           <SandpackCodeEditor
@@ -26,15 +27,17 @@ const CustomLayout = ({ theme }: any) => {
             extensionsKeymap={MutableKeyMap}
           />
         )}
-        <SandpackPreview />
+        <SandpackPreview
+          actionsChildren={
+            <Button
+              onClick={() => setShowEditor((x) => !x)}
+              className="sandpack-button"
+            >
+              {showEditor ? "Hide " : "Show "}Editor
+            </Button>
+          }
+        />
       </SandpackLayout>
-
-      <FlexLayout gap={2}>
-        <Button onClick={() => setShowEditor((x) => !x)}>
-          {showEditor ? "Hide " : "Show "}Editor
-        </Button>
-        <ShareButton theme={theme} />
-      </FlexLayout>
     </StackLayout>
   );
 };
@@ -52,7 +55,7 @@ export const CustomSandpack = ({ themeObj }: any) => {
   return (
     <>
       <FilesUpdater theme={themeObj} />
-      <CustomLayout theme={themeObj} />
+      <CustomLayout />
     </>
   );
 };

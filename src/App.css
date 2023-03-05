@@ -4,8 +4,8 @@
 }
 
 .custom-layout {
-  /* height: 100%; */
-  --sp-layout-height: 90vh;
+  height: 100%;
+  --sp-layout-height: calc(100vh - 16px);
 }
 
 .inner-app {
@@ -47,6 +47,6 @@
   z-index: 1;
 }
 
-.template-picker-card {
+.template-picker-toolbar {
   flex: 0 0 auto;
 }

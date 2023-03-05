@@ -18,7 +18,7 @@ const InnerApp = () => {
   );
 
   return (
-    <FlexLayout className="inner-app">
+    <FlexLayout className="inner-app" align="stretch">
       <FlexItem
         grow={1}
         shrink={1}

@@ -16,12 +16,13 @@ export const ThemeEditor = ({
   const [themeName, setThemeName] = useState("Custom theme");
   const [showCodeEditor, setShowCodeEditor] = useState(false);
   return (
-    <StackLayout style={{ height: "100%" }}>
+    <StackLayout style={{ height: "100%" }} gap={1}>
       <TemplatePicker
         onThemeObjChange={(newTheme, newName) => {
           onThemeObjChange(newTheme);
           setThemeName(newName);
         }}
+        themeObj={themeObj}
       />
       <Card
         className={

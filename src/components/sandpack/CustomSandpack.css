@@ -1,0 +1,13 @@
+.sandpack-preview-panel-inner {
+  height: 100%;
+}
+
+.sandpack-button.saltButton {
+  --saltButton-background: var(--sp-colors-surface2);
+  --saltButton-text-color: var(--sp-colors-clickable);
+  --saltButton-text-color-hover: var(--sp-colors-hover);
+  border-radius: 99999px;
+  --saltButton-padding: var(--sp-space-3) 0;
+  --saltButton-textTransform: none;
+  --saltButton-fontWeight: 600;
+}
