@@ -82,7 +82,7 @@ export default function App() {
         rowData={rowData}
         style={{
           height: 'var(--grid-total-height)',
-          width: 'var(--grid-total-width)',
+          width: '100%',
         }}
         selectedRowIdxs={[1]}
       >

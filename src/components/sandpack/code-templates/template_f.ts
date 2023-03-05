@@ -90,7 +90,12 @@ export default function App() {
 }
 
 .section.odd {
-  background: var(--salt-container-secondary-background);
+  background: black;
+  --salt-text-primary-foreground: var(--salt-color-white);
+}
+
+.section.odd .saltCard{
+  --salt-text-primary-foreground: var(--salt-palette-neutral-primary-foreground);
 }
 
 .text-hightlight {
