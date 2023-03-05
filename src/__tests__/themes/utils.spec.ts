@@ -10,7 +10,6 @@ describe("isThemeToken", () => {
       expect(
         isThemeToken({
           $type: "color",
-          // Orange 800
           $value: {
             r: 204,
             g: 68,
@@ -24,11 +23,43 @@ describe("isThemeToken", () => {
       expect(
         isThemeToken({
           $type: "color",
-          // Orange 800
           $value: "{a.b.c}",
         })
       ).toEqual(true);
     });
+  });
+
+  describe("unknown token", () => {
+    test("returns false by default", () => {
+      expect(
+        isThemeToken({
+          $type: "unknown",
+          $value: "foo",
+        })
+      ).toEqual(false);
+    });
+    test("returns true when loose=true", () => {
+      expect(
+        isThemeToken(
+          {
+            $type: "unknown",
+            $value: "foo",
+          },
+          true
+        )
+      ).toEqual(true);
+    });
+  });
+
+  test("returns false for group object", () => {
+    expect(
+      isThemeToken({
+        group: {
+          $type: "unknown",
+          $value: "foo",
+        },
+      })
+    ).toEqual(false);
   });
 });
 
@@ -55,7 +86,6 @@ describe("convertThemeObjToCss", () => {
         convertThemeObjToCss({
           active: {
             $type: "color",
-            // Orange 800
             $value: "{a.b.c}",
           },
         })
@@ -67,7 +97,6 @@ describe("convertThemeObjToCss", () => {
         convertThemeObjToCss({
           background: {
             $type: "color",
-            // Orange 700
             $value: {
               r: 214,
               g: 85,
@@ -75,7 +104,6 @@ describe("convertThemeObjToCss", () => {
             },
             active: {
               $type: "color",
-              // Orange 800
               $value: {
                 r: 204,
                 g: 68,
