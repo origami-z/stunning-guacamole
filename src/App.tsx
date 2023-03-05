@@ -7,12 +7,15 @@ import {
 } from "./components/sandpack";
 import { ThemeEditor } from "./components/ThemeEditor";
 import { DEFAULT_TOKENS } from "./themes/sample-tokens/default";
+import { getInitialTheme } from "./utils";
 
 import "./App.css";
 
 // Split the app into 2 parts, so that we can access SandpackProvider
 const InnerApp = () => {
-  const [customTheme, setCustomTheme] = useState<any>(DEFAULT_TOKENS);
+  const [customTheme, setCustomTheme] = useState<any>(
+    getInitialTheme(DEFAULT_TOKENS)
+  );
 
   return (
     <FlexLayout className="inner-app">

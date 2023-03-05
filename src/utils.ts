@@ -4,9 +4,8 @@ import {
   decompressFromEncodedURIComponent,
 } from "lz-string";
 
-export const compressFiles = (files: SandpackState["files"]) => {
-  const filesJsonString = JSON.stringify(files);
-  const compressed = compressToEncodedURIComponent(filesJsonString);
+export const compressObject = (object: object) => {
+  const compressed = compressToEncodedURIComponent(JSON.stringify(object));
   return compressed;
 };
 
@@ -33,11 +32,11 @@ const flashInfo = (message: string, timeout = 1000) => {
   }, timeout);
 };
 
-const PARAM_PREFIX = "#files/";
+const PARAM_THEME_PREFIX = "#theme/";
 
-export const shareFiles = (files: SandpackState["files"]) => {
-  const compressed = compressFiles(files);
-  const newURL = PARAM_PREFIX + compressed;
+export const shareTheme = (theme: object) => {
+  const compressed = compressObject(theme);
+  const newURL = PARAM_THEME_PREFIX + compressed;
 
   console.log("compressed length", compressed.length);
   console.log({ compressed, newURL });
@@ -50,15 +49,19 @@ export const shareFiles = (files: SandpackState["files"]) => {
   );
 };
 
-export const getInitialFiles = (fallback: SandpackState["files"]) => {
-  if (location.hash.startsWith(PARAM_PREFIX)) {
-    const compressedCode = location.hash.replace(PARAM_PREFIX, "").trim();
+export const getInitialTheme = (fallback: object) => {
+  if (location.hash.startsWith(PARAM_THEME_PREFIX)) {
+    const compressedCode = location.hash.replace(PARAM_THEME_PREFIX, "").trim();
     if (compressedCode) {
       const decoded = decompressFromEncodedURIComponent(compressedCode);
       if (decoded) {
         try {
-          const files = JSON.parse(decoded);
-          return files;
+          const parsed = JSON.parse(decoded);
+          console.log("Found theme in URL, using it:", parsed);
+          flashInfo("Using theme found in the URL", 2000);
+          // Remove the hash from url
+          window.history.replaceState({}, "", "#");
+          return parsed;
         } catch (e) {
           console.log(e);
         }
