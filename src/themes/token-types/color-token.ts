@@ -2,6 +2,7 @@ import {
   convertValueReferenceToCSSValue,
   isTokenValueReference,
   ReferenceValue,
+  TokenProperties,
 } from "./shared";
 
 export type ColorTokenValue =
@@ -13,10 +14,12 @@ export type ColorTokenValue =
     }
   | ReferenceValue;
 
-export type ColorToken = {
-  $type: "color";
-  $value: ColorTokenValue;
-};
+export type ColorToken =
+  | {
+      $type: "color";
+      $value: ColorTokenValue;
+    }
+  | TokenProperties;
 
 export const convertColorTokenToCSS = (token: ColorToken): string => {
   const $value = token["$value"];

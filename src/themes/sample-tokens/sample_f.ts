@@ -40,7 +40,7 @@ export const SampleTokenF = {
     },
   },
   typography: {
-    headline: {
+    h1: {
       $type: "typography",
       $value: {
         fontFamily: "{font.light}",

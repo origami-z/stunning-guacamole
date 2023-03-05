@@ -1,3 +1,18 @@
+type TokenPropertyName = string;
+export type TokenPropertyKey = `$${TokenPropertyName}`;
+
+/** Information associated with a token, e.g. $type, $value */
+export type TokenProperties = {
+  [key: TokenPropertyKey]: any;
+};
+
+export type GenericToken =
+  | {
+      $type: string;
+      $value: any;
+    }
+  | TokenProperties;
+
 type ReferenceValuePointer = string;
 export type ReferenceValue = `{${ReferenceValuePointer}}`;
 
