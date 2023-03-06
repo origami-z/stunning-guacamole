@@ -1,6 +1,6 @@
-import { Color, ColorChooser } from "@salt-ds/lab";
+import { Color, ColorChooser, FormField, Input } from "@salt-ds/lab";
 import { useCallback } from "react";
-import { ColorToken } from "../../../themes/token-types";
+import { ColorToken, isRGBA255 } from "../../../themes/token-types";
 import { isTokenValueReference } from "../../../themes/token-types";
 import { ReferenceValueRenderer } from "./GenericToken";
 
@@ -15,7 +15,16 @@ export const ColorTokenRenderer = ({
     return (
       <ReferenceValueRenderer value={colorProp} onValueChange={onColorChange} />
     );
-  } else {
+  } else if (typeof colorProp === "string") {
+    return (
+      <FormField label="Value" style={{ width: 160 }}>
+        <Input
+          value={colorProp}
+          onChange={(_, newValue) => onColorChange?.(newValue)}
+        />
+      </FormField>
+    );
+  } else if (isRGBA255(colorProp)) {
     const { r, g, b, a } = colorProp;
     const color = Color.makeColorFromRGB(r, g, b, a);
 
@@ -36,6 +45,22 @@ export const ColorTokenRenderer = ({
       <div>
         <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />
       </div>
+    );
+  } else {
+    const stringifyValue = JSON.stringify(colorProp);
+    return (
+      <FormField label="JSON value" style={{ width: 160 }}>
+        <Input
+          value={stringifyValue}
+          onChange={(_, newValue) => {
+            try {
+              onColorChange?.(JSON.parse(newValue));
+            } catch {
+              console.warn("Ignored update from invalid JSON value", newValue);
+            }
+          }}
+        />
+      </FormField>
     );
   }
 };
