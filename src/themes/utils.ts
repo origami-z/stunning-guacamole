@@ -1,16 +1,18 @@
 import {
-  ColorToken,
-  ColorTokenValue,
   convertColorTokenToCSS,
   isValidColorTokenValue,
 } from "./token-types/color-token";
 import {
   convertValueReferenceToCSSValue,
   isTokenValueReference,
-  ReferenceValue,
 } from "./token-types/shared";
-import { ThemeToken } from "./types";
+import { TokenType } from "./types";
 
+/**
+ * Split an object to two with one keys all prefixed with $.
+ *
+ * `[{$type, ...rest$}, {otherGroup, ...restGroups}] = splitObjectKeysByDollar({$type: 'color', otherGroup: {}})`
+ */
 export const splitObjectKeysByDollar = (input: { [key: string]: any }) => {
   const with$: { [key: string]: any } = {};
   const others: { [key: string]: any } = {};
@@ -24,99 +26,98 @@ export const splitObjectKeysByDollar = (input: { [key: string]: any }) => {
   return [with$, others] as const;
 };
 
-const innerCssConvertLoop = (themeObj: any): string[] => {
-  if (typeof themeObj === "object") {
-    const allKeys = Object.keys(themeObj);
+export const convertThemeObjToCss = (themeObj: any): string[] => {
+  const innerLoop = (themeObj: any): string[] => {
+    if (typeof themeObj === "object") {
+      const allKeys = Object.keys(themeObj);
 
-    return allKeys.flatMap((k) => {
-      const objValue = themeObj[k];
+      return allKeys.flatMap((k) => {
+        const objValue = themeObj[k];
 
-      if (isThemeToken(objValue, true)) {
-        const [with$, others] = splitObjectKeysByDollar(objValue);
-        const { $type, $value, ...rest$ } = with$;
+        if (isThemeToken(objValue, true)) {
+          const [with$, others] = splitObjectKeysByDollar(objValue);
+          const { $type, $value, ...rest$ } = with$;
 
-        const allCss: string[] = [];
-        if ($type === "color") {
-          allCss.push(
-            k + ": " + convertColorTokenToCSS({ $type, $value, ...rest$ })
-          );
-        } else {
-          if (isTokenValueReference($value)) {
-            allCss.push(k + ": " + convertValueReferenceToCSSValue($value));
+          const allCss: string[] = [];
+          if ($type === "color") {
+            allCss.push(
+              k + ": " + convertColorTokenToCSS({ $type, $value, ...rest$ })
+            );
           } else {
-            if (typeof $value === "object") {
-              Object.keys($value).forEach((valueKey) => {
-                const valueValue = $value[valueKey];
-                if (typeof valueValue === "object") {
-                  console.error(
-                    "Nested object value is not allowed: ",
-                    valueValue
-                  );
-                } else if (isTokenValueReference(valueValue)) {
-                  allCss.push(
-                    `${k}-${valueKey}: ${convertValueReferenceToCSSValue(
-                      valueValue
-                    )}`
-                  );
-                } else {
-                  // Try converting all other types of value using `toString`, or ignore
-                  try {
-                    allCss.push(`${k}-${valueKey}: ${valueValue.toString()}`);
-                  } catch (e) {
+            if (isTokenValueReference($value)) {
+              allCss.push(k + ": " + convertValueReferenceToCSSValue($value));
+            } else {
+              if (typeof $value === "object") {
+                Object.keys($value).forEach((valueKey) => {
+                  const valueValue = $value[valueKey];
+                  if (typeof valueValue === "object") {
                     console.error(
-                      "Unimplemented CSS conversion for nested value in type: " +
-                        $type,
-                      +", nested value: ",
+                      "Nested object value is not allowed: ",
                       valueValue
                     );
+                  } else if (isTokenValueReference(valueValue)) {
+                    allCss.push(
+                      `${k}-${valueKey}: ${convertValueReferenceToCSSValue(
+                        valueValue
+                      )}`
+                    );
+                  } else {
+                    // Try converting all other types of value using `toString`, or ignore
+                    try {
+                      allCss.push(`${k}-${valueKey}: ${valueValue.toString()}`);
+                    } catch (e) {
+                      console.error(
+                        "Unimplemented CSS conversion for nested value in type: " +
+                          $type,
+                        +", nested value: ",
+                        valueValue
+                      );
+                    }
                   }
+                });
+              } else {
+                // Try converting all other types of value using `toString`, or ignore
+                try {
+                  allCss.push(k + ": " + $value.toString());
+                } catch (e) {
+                  console.error(
+                    "Unimplemented CSS conversion for type: " + $type,
+                    +", value: ",
+                    $value
+                  );
                 }
-              });
-            } else {
-              // Try converting all other types of value using `toString`, or ignore
-              try {
-                allCss.push(k + ": " + $value.toString());
-              } catch (e) {
-                console.error(
-                  "Unimplemented CSS conversion for type: " + $type,
-                  +", value: ",
-                  $value
-                );
               }
             }
           }
+
+          const restCss = innerLoop(others).map(
+            (mappedCode) => `${k}-${mappedCode}`
+          );
+          allCss.push(...restCss);
+
+          return allCss;
+        } else if (typeof objValue === "object") {
+          const mapped = innerLoop(objValue).map(
+            (converted) => k + "-" + converted
+          );
+
+          return mapped;
+        } else {
+          return "";
         }
-
-        const restCss = innerCssConvertLoop(others).map(
-          (mappedCode) => `${k}-${mappedCode}`
-        );
-        allCss.push(...restCss);
-
-        return allCss;
-      } else if (typeof objValue === "object") {
-        const mapped = innerCssConvertLoop(objValue).map(
-          (converted) => k + "-" + converted
-        );
-
-        return mapped;
-      } else {
-        return "";
-      }
-    });
-  } else {
-    return [];
-  }
-};
-
-export const convertThemeObjToCss = (themeObj: any): string[] => {
-  return innerCssConvertLoop(themeObj).map((css) => "--" + css + ";");
+      });
+    } else {
+      return [];
+    }
+  };
+  return innerLoop(themeObj).map((css) => "--" + css + ";");
 };
 
 export const isThemeToken = (
   obj: any,
   loose?: boolean,
   debug?: boolean
-): obj is ThemeToken => {
+): obj is TokenType => {
   debug && console.log("isThemeToken", obj);
   if (typeof obj === "object") {
     const $type = obj.$type;

@@ -1,17 +1,19 @@
 import { ColorToken } from "./token-types/color-token";
-import { GenericToken, TokenPropertyKey } from "./token-types/shared";
+import {
+  GenericToken,
+  TokenPropertyKey,
+  TokenReservedKey,
+} from "./token-types/shared";
 
-export type ThemeToken = ColorToken | GenericToken;
+export type TokenType = ColorToken | GenericToken;
 
-export type ThemeObject =
-  | ThemeToken
-  // 2nd half ensures `key` can't be `$value` and `$type` to help TS
-  | ({
-      [key: string]: ThemeObject;
-    } & {
-      $value?: never;
-      $type?: never;
-    });
+export type ThemeObject<TType = TokenType> =
+  | TType
+  | {
+      [key: string]: typeof key extends TokenReservedKey
+        ? never
+        : ThemeObject<TType>;
+    };
 
 export type ThemeRoot = {
   // Top level theme object should have token name present

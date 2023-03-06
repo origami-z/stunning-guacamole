@@ -1,9 +1,17 @@
 type TokenPropertyName = string;
 export type TokenPropertyKey = `$${TokenPropertyName}`;
+export type TokenReservedKey = "$value" | "$type";
 
-/** Information associated with a token, e.g. $type, $value */
+/**
+ * Additional information associated with a token, e.g. $description.
+ * $value and $type are excluded.
+ **/
 export type TokenProperties = {
-  [key: TokenPropertyKey]: any;
+  [key: TokenPropertyKey]: typeof key extends TokenPropertyKey
+    ? typeof key extends TokenReservedKey
+      ? never
+      : any
+    : never;
 };
 
 export type GenericToken =
@@ -26,6 +34,15 @@ export const isTokenValueReference = (value: any): value is ReferenceValue => {
   } else {
     return false;
   }
+};
+
+export const isTokenValueReferenceOrNumber = (
+  value: any
+): value is ReferenceValue | number => {
+  if (typeof value === "number") {
+    return true;
+  }
+  return isTokenValueReference(value);
 };
 
 /**
