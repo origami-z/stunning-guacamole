@@ -34,7 +34,7 @@ root.render(
 
 // CRA env has problem not loading index.html to load font
 // https://github.com/codesandbox/sandpack/issues/44
-export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = {
+export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = (theme = DEFAULT_TOKENS) => ({
   main: "/index.tsx",
   environment: "create-react-app" as const,
   files: {
@@ -42,7 +42,7 @@ export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = {
       code: DEFAULT_APP_TEMPLATE[APP_FILE],
     },
     [THEME_CSS]: {
-      code: getCodeForCSS(DEFAULT_TOKENS),
+      code: getCodeForCSS(theme),
     },
     [APP_CSS]: {
       code: DEFAULT_APP_TEMPLATE[APP_CSS],
@@ -103,10 +103,10 @@ export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = {
       hidden: true,
     },
   },
-};
+});
 
 // node env is too slow to load and fail too often
-export const DEFAULT_VITE_FILES = {
+export const DEFAULT_VITE_FILES = (theme = DEFAULT_TOKENS) => ({
   main: "/App.tsx",
   environment: "node" as const,
   files: {
@@ -114,7 +114,7 @@ export const DEFAULT_VITE_FILES = {
       code: DEFAULT_APP_TEMPLATE[APP_FILE],
     },
     [THEME_CSS]: {
-      code: getCodeForCSS(DEFAULT_TOKENS),
+      code: getCodeForCSS(theme),
     },
     [APP_CSS]: {
       code: DEFAULT_APP_TEMPLATE[APP_CSS],
@@ -176,4 +176,4 @@ plugins: [react()],
       hidden: true,
     },
   },
-};
+});

@@ -12,10 +12,8 @@ import { getInitialTheme } from "./utils";
 import "./App.css";
 
 // Split the app into 2 parts, so that we can access SandpackProvider
-const InnerApp = () => {
-  const [customTheme, setCustomTheme] = useState<any>(
-    getInitialTheme(DEFAULT_TOKENS)
-  );
+const InnerApp = ({ initialTheme }: { initialTheme: any }) => {
+  const [customTheme, setCustomTheme] = useState<any>(initialTheme);
 
   return (
     <FlexLayout className="inner-app" align="stretch">
@@ -37,7 +35,9 @@ const InnerApp = () => {
   );
 };
 
-const CUSTOM_SETUP = DEFAULT_REACT_TYPESCRIPT_CRA_FILES;
+// Gets theme from URL if any
+const initialTheme = getInitialTheme(DEFAULT_TOKENS);
+const CUSTOM_SETUP = DEFAULT_REACT_TYPESCRIPT_CRA_FILES(initialTheme);
 
 const App = () => {
   return (
@@ -62,7 +62,7 @@ const App = () => {
         // bundlerURL: ''
       }}
     >
-      <InnerApp />
+      <InnerApp initialTheme={initialTheme} />
     </SandpackProvider>
   );
 };
