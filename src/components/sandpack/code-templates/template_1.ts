@@ -24,7 +24,11 @@ const shortColorData = [
 export default function App(): JSX.Element {
   return (
     <StackLayout>
-      <List source={shortColorData} selected={shortColorData[3]} />
+      <List 
+        source={shortColorData}
+        selected={[shortColorData[3], shortColorData[5]]} 
+        selectionStrategy="multiple"
+      />
       <FlexLayout align="center">
         <Button variant="cta">
           <ThumbsUpIcon /> CTA
