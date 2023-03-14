@@ -70,3 +70,16 @@ export const getInitialTheme = (fallback: object) => {
   }
   return fallback;
 };
+
+export const PREVIEW_MODE = "previewMode";
+
+export const getInitialPreviewMode = (fallback: "light" | "dark") => {
+  const urlSearchParams = new URLSearchParams(location.search);
+  console.log({ urlSearchParams });
+
+  if (urlSearchParams.has(PREVIEW_MODE)) {
+    return urlSearchParams.get(PREVIEW_MODE) as string;
+  }
+
+  return fallback;
+};
