@@ -1,8 +1,7 @@
-import { SandpackState } from "@codesandbox/sandpack-react";
 import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { convertThemeObjToCss } from "../../themes/utils";
 import { APP_TEMPLATE_F } from "./code-templates";
-import { APP_FILE, THEME_CSS, APP_CSS, SALT_DEPENDENCIES } from "./constants";
+import { APP_CSS, APP_FILE, SALT_DEPENDENCIES, THEME_CSS } from "./constants";
 
 const DEFAULT_APP_TEMPLATE = APP_TEMPLATE_F;
 
@@ -10,7 +9,10 @@ export const getCodeForCSS = (theme: any) => `.custom-theme.salt-theme {
   ${convertThemeObjToCss(theme).join("\n  ")}
 }`;
 
-const FILE_INDEX_CODE = `import { StrictMode } from "react";
+export const FILE_INDEX = "/index.tsx";
+const FILE_INDEX_CODE = (
+  mode: "light" | "dark"
+) => `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { SaltProvider } from "@salt-ds/core";
 
@@ -25,7 +27,7 @@ import App from "./App";
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
-    <SaltProvider theme="custom-theme">
+    <SaltProvider theme="custom-theme" mode="${mode}">
       <App />
     </SaltProvider>
   </StrictMode>
@@ -34,7 +36,10 @@ root.render(
 
 // CRA env has problem not loading index.html to load font
 // https://github.com/codesandbox/sandpack/issues/44
-export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = (theme = DEFAULT_TOKENS) => ({
+export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = (
+  theme = DEFAULT_TOKENS,
+  mode = "light" as const
+) => ({
   main: "/index.tsx",
   environment: "create-react-app" as const,
   files: {
@@ -61,8 +66,8 @@ export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = (theme = DEFAULT_TOKENS) => ({
 }`,
       hidden: true,
     },
-    "/index.tsx": {
-      code: FILE_INDEX_CODE,
+    [FILE_INDEX]: {
+      code: FILE_INDEX_CODE(mode),
     },
     "/public/index.html": {
       code: `<!DOCTYPE html>
@@ -106,7 +111,10 @@ export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = (theme = DEFAULT_TOKENS) => ({
 });
 
 // node env is too slow to load and fail too often
-export const DEFAULT_VITE_FILES = (theme = DEFAULT_TOKENS) => ({
+export const DEFAULT_VITE_FILES = (
+  theme = DEFAULT_TOKENS,
+  mode = "light" as const
+) => ({
   main: "/App.tsx",
   environment: "node" as const,
   files: {
@@ -119,8 +127,8 @@ export const DEFAULT_VITE_FILES = (theme = DEFAULT_TOKENS) => ({
     [APP_CSS]: {
       code: DEFAULT_APP_TEMPLATE[APP_CSS],
     },
-    "/index.tsx": {
-      code: FILE_INDEX_CODE,
+    [FILE_INDEX]: {
+      code: FILE_INDEX_CODE(mode),
     },
     "/index.html": {
       code: `<!DOCTYPE html>

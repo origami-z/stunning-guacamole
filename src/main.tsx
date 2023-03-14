@@ -1,7 +1,7 @@
+import { SaltProvider } from "@salt-ds/core";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { SaltProvider } from "@salt-ds/core";
 
 import "@salt-ds/theme/index.css";
 

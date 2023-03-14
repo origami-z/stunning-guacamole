@@ -7,7 +7,7 @@ import {
 } from "./components/sandpack";
 import { ThemeEditor } from "./components/ThemeEditor";
 import { DEFAULT_TOKENS } from "./themes/sample-tokens/default";
-import { getInitialTheme } from "./utils";
+import { getInitialPreviewMode, getInitialTheme } from "./utils";
 
 import "./App.css";
 
@@ -37,7 +37,11 @@ const InnerApp = ({ initialTheme }: { initialTheme: any }) => {
 
 // Gets theme from URL if any
 const initialTheme = getInitialTheme(DEFAULT_TOKENS);
-const CUSTOM_SETUP = DEFAULT_REACT_TYPESCRIPT_CRA_FILES(initialTheme);
+const initialPreviewMode = getInitialPreviewMode("light");
+const CUSTOM_SETUP = DEFAULT_REACT_TYPESCRIPT_CRA_FILES(
+  initialTheme,
+  initialPreviewMode as any
+);
 
 const App = () => {
   return (
