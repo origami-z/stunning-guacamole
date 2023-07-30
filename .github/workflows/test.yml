@@ -1,9 +1,9 @@
-name: Teset
+name: CI
 
 on: [push]
 
 jobs:
-  test:
+  build-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -12,4 +12,5 @@ jobs:
         with:
           node-version: "16.x"
       - run: yarn
+      - run: yarn build
       - run: yarn test
