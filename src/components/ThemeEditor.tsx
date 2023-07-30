@@ -1,7 +1,6 @@
 import MonacoEditor from "@monaco-editor/react";
-import { Card, StackLayout } from "@salt-ds/core";
+import { StackLayout, Card, ToggleButton, Tooltip } from "@salt-ds/core";
 import { DocumentIcon } from "@salt-ds/icons";
-import { ToggleButton } from "@salt-ds/lab";
 import { useState } from "react";
 import { TemplatePicker } from "./visual-editor/TemplatePicker";
 import { ThemeRenderer } from "./visual-editor/ThemeRenderer";
@@ -9,9 +8,11 @@ import { ThemeRenderer } from "./visual-editor/ThemeRenderer";
 export const ThemeEditor = ({
   themeObj,
   onThemeObjChange,
+  onToggleAppTheme,
 }: {
   themeObj: any;
   onThemeObjChange: (newThemeObj: any) => void;
+  onToggleAppTheme: () => void;
 }) => {
   const [themeName, setThemeName] = useState("Custom theme");
   const [showCodeEditor, setShowCodeEditor] = useState(false);
@@ -23,21 +24,23 @@ export const ThemeEditor = ({
           setThemeName(newName);
         }}
         themeObj={themeObj}
+        onToggleAppTheme={onToggleAppTheme}
       />
+      <Tooltip content="Use code editor to change value type or modify">
+        <ToggleButton
+          className="show-code-editor-toggle"
+          selected={showCodeEditor}
+          onChange={() => setShowCodeEditor((prev) => !prev)}
+          value={undefined}
+        >
+          <DocumentIcon aria-hidden /> JSON
+        </ToggleButton>
+      </Tooltip>
       <Card
         className={
           "theme-renderer-card" + (showCodeEditor ? " code-editor-card" : "")
         }
       >
-        <ToggleButton
-          variant="cta"
-          className="show-code-editor-toggle"
-          toggled={showCodeEditor}
-          onToggle={(_, newValue) => setShowCodeEditor(newValue)}
-          tooltipText="Use editor to change value type if needed"
-        >
-          <DocumentIcon /> JSON
-        </ToggleButton>
         {showCodeEditor ? (
           <MonacoEditor
             width="100%"
