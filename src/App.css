@@ -24,6 +24,7 @@
   flex: 1 1 auto;
   overflow-y: auto;
   position: relative;
+  min-height: 100px;
 }
 
 .theme-renderer-card.saltCard h1 {
@@ -42,11 +43,15 @@
 
 .show-code-editor-toggle.saltToggleButton {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: calc(var(--salt-spacing-400) + var(--salt-size-base));
+  right: var(--salt-spacing-300);
   z-index: 1;
 }
 
 .template-picker-toolbar {
   flex: 0 0 auto;
+}
+
+.saltButton.saltButton-secondary.saltColorChooser-overlayButton {
+  --saltButton-textTransform: none;
 }

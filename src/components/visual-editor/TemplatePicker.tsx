@@ -1,5 +1,5 @@
 import { useSandpack } from "@codesandbox/sandpack-react";
-import { ShareIcon } from "@salt-ds/icons";
+import { ShareIcon, LightIcon, DarkIcon } from "@salt-ds/icons";
 import { Dropdown, DropdownButton, Toolbar, ToolbarButton } from "@salt-ds/lab";
 import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { SampleToken1 } from "../../themes/sample-tokens/sample1";
@@ -9,6 +9,7 @@ import {
   APP_TEMPLATE_2,
   APP_TEMPLATE_F,
 } from "../sandpack/code-templates";
+import { useTheme } from "@salt-ds/core";
 
 const ThemeTemplate = [
   {
@@ -39,11 +40,14 @@ const AppCodeTemplate = [
 export const TemplatePicker = ({
   themeObj,
   onThemeObjChange,
+  onToggleAppTheme,
 }: {
   themeObj: any;
   onThemeObjChange?: (newThemeObj: any, name: string) => void;
+  onToggleAppTheme: () => void;
 }) => {
   const { sandpack } = useSandpack();
+  const { mode } = useTheme();
 
   return (
     <Toolbar className="template-picker-toolbar">
@@ -73,6 +77,18 @@ export const TemplatePicker = ({
         }}
         triggerComponent={<DropdownButton label={"Preview template"} />}
       />
+      <ToolbarButton onClick={() => onToggleAppTheme()} data-align-end>
+        {/* TODO: Salt Toolbar button doesn't reflect children change */}
+        {mode === "dark" ? (
+          <>
+            <DarkIcon aria-label="Dark mode" /> Dark mode
+          </>
+        ) : (
+          <>
+            <LightIcon aria-label="Light mode" /> Light mode
+          </>
+        )}
+      </ToolbarButton>
       <ToolbarButton onClick={() => shareTheme(themeObj)} data-align-end>
         <ShareIcon /> Theme
       </ToolbarButton>

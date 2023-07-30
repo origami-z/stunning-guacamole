@@ -43,7 +43,12 @@ export const ColorTokenRenderer = ({
     );
     return (
       <div>
-        <ColorChooser color={color} onSelect={onSelect} onClear={() => {}} />
+        <ColorChooser
+          color={color}
+          onSelect={onSelect}
+          onClear={() => {}}
+          buttonProps={{ variant: "secondary" }}
+        />
       </div>
     );
   } else {

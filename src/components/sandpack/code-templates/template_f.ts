@@ -13,7 +13,7 @@ export const APP_TEMPLATE_F = {
   FlexLayout,
   Card,
 } from '@salt-ds/core';
-import { FormField, Logo, Input } from '@salt-ds/lab';
+import { FormField, Input } from '@salt-ds/lab';
 import * as React from 'react';
 
 import './App.css';
@@ -25,6 +25,7 @@ const logo2 = (
     viewBox="0 0 240 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="SGLogo"
   >
     <text x="0" y="24" fontSize="24px" fill="var(--logo-text-color)">
       Stunning Guacamole
@@ -37,7 +38,7 @@ export default function App() {
     <StackLayout gap={0}>
       <FlexItem className="section odd">
         <FlexLayout justify="space-between">
-          <Logo LogoImageComponent={() => logo2} />
+          {logo2}
           <Button>Login</Button>
         </FlexLayout>
         <H1>
@@ -81,7 +82,7 @@ export default function App() {
   );
 }
 `,
-  [APP_CSS]: `.saltLogo {
+  [APP_CSS]: `.SGLogo {
   --logo-text-color: var(--salt-text-primary-foreground);
 }
 

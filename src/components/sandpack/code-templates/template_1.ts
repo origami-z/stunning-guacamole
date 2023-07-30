@@ -26,7 +26,7 @@ export default function App(): JSX.Element {
     <StackLayout>
       <List 
         source={shortColorData}
-        selected={[shortColorData[3], shortColorData[5]]} 
+        defaultSelected={[shortColorData[3], shortColorData[5]]} 
         selectionStrategy="multiple"
       />
       <FlexLayout align="center">
