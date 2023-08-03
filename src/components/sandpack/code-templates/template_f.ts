@@ -43,14 +43,14 @@ export default function App() {
         </FlexLayout>
         <H1>
           Welcome to our new product to{' '}
-          <span className="text-hightlight">boost your productivity</span>
+          <span className="text-highlight">boost your productivity</span>
         </H1>
 
         <Button variant="cta">Contact Us</Button>
       </FlexItem>
       <FlexItem className="section even">
         <H2>
-          We offer <span className="text-hightlight">fantastic product</span>
+          We offer <span className="text-highlight">fantastic product</span>
         </H2>
         <Text>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -99,8 +99,8 @@ export default function App() {
   --salt-text-primary-foreground: var(--salt-palette-neutral-primary-foreground);
 }
 
-.text-hightlight {
-  color: var(--salt-palette-interact-cta-background);
+.text-highlight {
+  color: var(--salt-actionable-cta-background);
 }
 `,
 };
