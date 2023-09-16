@@ -11,15 +11,21 @@
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.9.0",
+    "@codemirror/language": "^6.0.0",
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
     "@codesandbox/sandpack-react": "^2.6.9",
+    "@lezer/common": "^1.0.0",
     "@monaco-editor/react": "^4.5.1",
     "@salt-ds/core": "^1.8.0-rc.5",
     "@salt-ds/icons": "^1.5.1",
     "@salt-ds/lab": "^1.0.0-alpha.14",
     "@salt-ds/theme": "^1.7.1",
     "lz-string": "^1.5.0",
+    "monaco-editor": "^0.43.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "scheduler": "^0.20.0"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
