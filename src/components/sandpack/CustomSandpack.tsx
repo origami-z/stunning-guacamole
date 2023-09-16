@@ -5,7 +5,7 @@ import {
   SandpackPreview,
   useSandpack,
 } from "@codesandbox/sandpack-react";
-import { Button, FlexLayout, StackLayout } from "@salt-ds/core";
+import { Button, StackLayout } from "@salt-ds/core";
 import { useEffect, useState } from "react";
 import { THEME_CSS } from "./constants";
 import { getCodeForCSS } from "./custom-setup";

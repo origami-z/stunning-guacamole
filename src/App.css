@@ -12,6 +12,15 @@
   height: 100%;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+strong {
+  color: var(--salt-text-primary-foreground);
+}
+
 .theme-definition-panel.saltFlexItem {
   flex-basis: 33%;
 }

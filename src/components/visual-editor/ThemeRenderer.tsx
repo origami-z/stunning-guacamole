@@ -1,6 +1,6 @@
 import { H1, StackLayout } from "@salt-ds/core";
 import { Fragment } from "react";
-import { isThemeToken, splitObjectKeysByDollar } from "../../themes/utils";
+import { splitObjectKeysByDollar } from "../../themes/utils";
 import { ColorTokenRenderer } from "./TokenRenderers/ColorToken";
 import { GenericTokenRenderer } from "./TokenRenderers/GenericToken";
 
