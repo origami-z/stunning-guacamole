@@ -8,6 +8,7 @@ import {
   APP_TEMPLATE_1,
   APP_TEMPLATE_2,
   APP_TEMPLATE_F,
+  APP_TEMPLATE_KITCHEN_SINK,
 } from "../sandpack/code-templates";
 import { useTheme } from "@salt-ds/core";
 
@@ -34,6 +35,10 @@ const AppCodeTemplate = [
   {
     name: "Toolbar with grid",
     template: APP_TEMPLATE_2,
+  },
+  {
+    name: "Kitchen Sink",
+    template: APP_TEMPLATE_KITCHEN_SINK,
   },
 ];
 
