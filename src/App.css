@@ -18,7 +18,7 @@ h3,
 h4,
 h5,
 strong {
-  color: var(--salt-text-primary-foreground);
+  color: var(--salt-content-primary-foreground);
 }
 
 .theme-definition-panel.saltFlexItem {
@@ -58,7 +58,9 @@ strong {
 }
 
 .template-picker-toolbar {
+  padding: var(--salt-size-unit);
   flex: 0 0 auto;
+  background: var(--salt-container-secondary-background);
 }
 
 .saltButton.saltButton-secondary.saltColorChooser-overlayButton {

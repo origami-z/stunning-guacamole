@@ -83,20 +83,20 @@ export default function App() {
 }
 `,
   [APP_CSS]: `.SGLogo {
-  --logo-text-color: var(--salt-text-primary-foreground);
+  --logo-text-color: var(--salt-content-primary-foreground);
 }
 
 .section {
-  padding: calc(var(--salt-size-unit) * 4);
+  padding: calc(var(--salt-spacing-100) * 4);
 }
 
 .section.odd {
   background: black;
-  --salt-text-primary-foreground: var(--salt-color-white);
+  --salt-content-primary-foreground: var(--salt-color-white);
 }
 
 .section.odd .saltCard{
-  --salt-text-primary-foreground: var(--salt-palette-neutral-primary-foreground);
+  --salt-content-primary-foreground: var(--salt-palette-neutral-primary-foreground);
 }
 
 .text-highlight {
