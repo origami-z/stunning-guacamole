@@ -1,8 +1,8 @@
 import { APP_CSS, APP_FILE } from "../constants";
 
 export const APP_TEMPLATE_2 = {
-  [APP_FILE]: `import { StackLayout } from '@salt-ds/core';
-import { Dropdown, Toolbar, ToolbarButton, ToolbarField } from '@salt-ds/lab';
+  [APP_FILE]: `import { StackLayout, Dropdown, Option } from '@salt-ds/core';
+import { Toolbar, ToolbarButton, ToolbarField } from '@salt-ds/lab';
 import {
   Grid,
   GridColumn,
@@ -34,17 +34,19 @@ const ToolbarSample = () => {
     <Toolbar id="toolbar-default">
       <ToolbarField label="Range">
         <Dropdown
-          defaultSelected={rangeData[0]}
-          source={rangeData}
-          style={{ width: 100 }}
-        />
+          defaultSelected={[rangeData[0]]}
+          style={{ width: 90 }}
+        >
+          {rangeData.map(d => (<Option value={d} key={d}>{d}</Option>))}
+        </Dropdown>
       </ToolbarField>
       <ToolbarField label="Type">
         <Dropdown
-          defaultSelected={typeData[0]}
-          source={typeData}
+          defaultSelected={[typeData[0]]}
           style={{ width: 90 }}
-        />
+        >
+          {typeData.map(d => (<Option value={d} key={d}>{d}</Option>))}
+        </Dropdown>
       </ToolbarField>
       <ToolbarButton onClick={() => logItemName('export')}>
         <ExportIcon /> Export

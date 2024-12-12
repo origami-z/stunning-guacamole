@@ -1,7 +1,13 @@
 import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { convertThemeObjToCss } from "../../themes/utils";
 import { APP_TEMPLATE_F } from "./code-templates";
-import { APP_CSS, APP_FILE, SALT_DEPENDENCIES, THEME_CSS } from "./constants";
+import {
+  APP_CSS,
+  APP_FILE,
+  DATE_LIBRARIES,
+  SALT_DEPENDENCIES,
+  THEME_CSS,
+} from "./constants";
 
 const DEFAULT_APP_TEMPLATE = APP_TEMPLATE_F;
 
@@ -97,6 +103,8 @@ export const DEFAULT_REACT_TYPESCRIPT_CRA_FILES = (
           "react-dom": "^18.0.0",
           "react-scripts": "^4.0.0",
           ...SALT_DEPENDENCIES,
+          // Below will not be needed once this is addressed: https://github.com/jpmorganchase/salt-ds/issues/4468
+          ...DATE_LIBRARIES,
         },
         devDependencies: {
           "@types/react": "^18.0.0",
@@ -163,6 +171,8 @@ export const DEFAULT_VITE_FILES = (
           react: "^18.2.0",
           "react-dom": "^18.2.0",
           ...SALT_DEPENDENCIES,
+          // Below will not be needed once this is addressed: https://github.com/jpmorganchase/salt-ds/issues/4468
+          ...DATE_LIBRARIES,
         },
         devDependencies: {
           "@vitejs/plugin-react": "3.1.0",

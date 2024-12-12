@@ -12,8 +12,10 @@ export const APP_TEMPLATE_F = {
   Link,
   FlexLayout,
   Card,
+  FormField,
+  FormFieldLabel,
+  Input
 } from '@salt-ds/core';
-import { FormField, Input } from '@salt-ds/lab';
 import * as React from 'react';
 
 import './App.css';
@@ -69,7 +71,8 @@ export default function App() {
             <FormField label="name">
               <Input />
             </FormField>
-            <FormField label="email">
+            <FormField>
+              <FormFieldLabel>Email</FormFieldLabel>
               <Input type="email" />
             </FormField>
             <FlexItem>
@@ -81,6 +84,7 @@ export default function App() {
     </StackLayout>
   );
 }
+
 `,
   [APP_CSS]: `.SGLogo {
   --logo-text-color: var(--salt-content-primary-foreground);

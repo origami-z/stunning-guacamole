@@ -1,7 +1,13 @@
 import { useSandpack } from "@codesandbox/sandpack-react";
-import { Button, FlexLayout, SplitLayout, useTheme } from "@salt-ds/core";
+import {
+  Button,
+  FlexLayout,
+  SplitLayout,
+  useTheme,
+  Dropdown,
+  Option,
+} from "@salt-ds/core";
 import { DarkIcon, LightIcon, ShareIcon } from "@salt-ds/icons";
-import { DropdownNext, Option } from "@salt-ds/lab";
 import { DEFAULT_TOKENS } from "../../themes/sample-tokens/default";
 import { SampleToken1 } from "../../themes/sample-tokens/sample1";
 import { shareTheme } from "../../utils";
@@ -61,7 +67,7 @@ export const TemplatePicker = ({
       className="template-picker-toolbar"
       startItem={
         <FlexLayout>
-          <DropdownNext
+          <Dropdown
             aria-label="Pick theme template"
             selected={[]}
             onSelectionChange={(_, items) => {
@@ -77,9 +83,9 @@ export const TemplatePicker = ({
                 {t.name}
               </Option>
             ))}
-          </DropdownNext>
+          </Dropdown>
 
-          <DropdownNext
+          <Dropdown
             aria-label="Pick preview template"
             selected={[]}
             onSelectionChange={(_, items) => {
@@ -99,7 +105,7 @@ export const TemplatePicker = ({
                 {t.name}
               </Option>
             ))}
-          </DropdownNext>
+          </Dropdown>
         </FlexLayout>
       }
       endItem={
